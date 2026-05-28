@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="html-root">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laguna Guarajuba · Resort 5★ & Branded Residences · 30.87ha · Camaçari · BA</title>
+  <meta name="description" content="Laguna Guarajuba — 30.87 hectares ocean + lagoon double waterfront. 5★ Resort + 60 Ultra-Luxury Villas. VGV R$1.1B · IRR 28–34% p.a. · Guarajuba · Bahia.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <style>
+    :root{
+      --gold:#C9A84C;--gold-l:#E8C97A;--gold-d:#8B6914;
+      --navy:#0B1E3F;--navy2:#122540;--navy3:#1A2E4A;
+      --ivory:#F5F1E8;--dark:#0D0D0D;--dark2:#1A1A1A;--dark3:#242424;
+      --tl:#E8E0D0;--tm:#9B8E7A;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Montserrat',sans-serif;background:var(--dark);color:var(--tl);overflow-x:hidden}
+
+    /* ── LANGUAGE SWITCHER ────────────────────────────────── */
+    .lang-bar{position:fixed;top:0;right:0;z-index:2000;display:flex;gap:0;background:rgba(10,10,10,.92);border-bottom-left-radius:4px;border:1px solid rgba(201,168,76,.25);border-top:none;border-right:none}
+    .lang-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;cursor:pointer;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);background:none;border:none;font-family:'Montserrat',sans-serif;transition:all .3s;border-right:1px solid rgba(201,168,76,.15)}
+    .lang-btn:last-child{border-right:none}
+    .lang-btn.active{color:var(--gold);background:rgba(201,168,76,.08)}
+    .lang-btn:hover{color:var(--gold-l)}
+    .flag{font-size:16px;line-height:1}
+
+    /* ── NAV ──────────────────────────────────────────────── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:20px 60px;transition:all .4s}
+    nav.sc{background:rgba(10,10,10,.96);backdrop-filter:blur(20px);padding:14px 60px;border-bottom:1px solid rgba(201,168,76,.2)}
+    .logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo-badge{width:44px;height:44px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--dark);flex-shrink:0}
+    .logo-text{display:flex;flex-direction:column;line-height:1.1}
+    .logo-text span:first-child{font-family:'Cormorant Garamond',serif;font-size:15px;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
+    .logo-text span:last-child{font-size:9px;letter-spacing:2px;color:var(--tm);text-transform:uppercase}
+    .nl{display:flex;gap:28px;list-style:none;align-items:center}
+    .nl a{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--tm);text-decoration:none;transition:color .3s}
+    .nl a:hover{color:var(--gold)}
+    .ncta{background:transparent;border:1px solid var(--gold);color:var(--gold)!important;padding:9px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .3s}
+    .ncta:hover{background:var(--gold);color:var(--dark)!important}
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    #hero{position:relative;height:100vh;min-height:700px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hbg{position:absolute;inset:0;background:linear-gradient(135deg,#060e1a 0%,#0a1a0a 100%)}
+    .himg{position:absolute;inset:0;background-image:url('16.jpg');background-size:cover;background-position:center 40%;opacity:.48;animation:hz 22s ease-in-out infinite alternate}
+    @keyframes hz{from{transform:scale(1.03)}to{transform:scale(1.1)}}
+    .hov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,13,.15) 0%,rgba(13,13,13,.05) 30%,rgba(13,13,13,.65) 75%,rgba(13,13,13,1) 100%)}
+    .hov2{position:absolute;inset:0;background:linear-gradient(to right,rgba(11,30,63,.5) 0%,transparent 60%)}
+    .hc{position:relative;z-index:2;text-align:center;max-width:1000px;padding:0 40px}
+    .hbadge{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(201,168,76,.4);padding:8px 20px;margin-bottom:26px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-l);animation:fid 1s ease forwards}
+    .hbadge::before,.hbadge::after{content:'◆';font-size:6px;color:var(--gold)}
+    .hpre{font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;opacity:0;animation:fiu 1s .3s ease forwards}
+    .ht{font-family:'Cormorant Garamond',serif;font-size:clamp(60px,9vw,110px);font-weight:300;line-height:.9;color:#fff;opacity:0;animation:fiu 1s .5s ease forwards}
+    .ht em{font-style:italic;color:var(--gold-l)}
+    .hsub{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--tm);margin:20px 0 44px;opacity:0;animation:fiu 1s .7s ease forwards}
+    .hstats{display:flex;justify-content:center;gap:52px;margin-bottom:44px;opacity:0;animation:fiu 1s .9s ease forwards;flex-wrap:wrap}
+    .hstat-v{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--gold-l);display:block}
+    .hstat-l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--tm);display:block;margin-top:4px}
+    .hact{display:flex;gap:18px;justify-content:center;opacity:0;animation:fiu 1s 1.1s ease forwards;flex-wrap:wrap}
+    .btn1{background:var(--gold);color:var(--dark);border:none;padding:16px 38px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
+    .btn1:hover{background:var(--gold-l)}
+    .btn2{background:transparent;color:var(--tl);border:1px solid rgba(255,255,255,.3);padding:16px 38px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all .3s}
+    .btn2:hover{border-color:var(--gold);color:var(--gold)}
+    .hscroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fiu 1s 1.4s ease forwards}
+    .hscroll span{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--tm)}
+    .sl{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sa 2s infinite}
+    @keyframes sa{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+    @keyframes fid{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fiu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── LAYOUT ───────────────────────────────────────────── */
+    section{padding:110px 0}
+    .ct{max-width:1280px;margin:0 auto;padding:0 60px}
+    .stag{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block}
+    .st{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4.5vw,60px);font-weight:300;line-height:1.05;color:#fff;margin-bottom:20px}
+    .st em{color:var(--gold-l);font-style:italic}
+    .sd{font-size:14px;line-height:1.85;color:var(--tm);max-width:560px}
+    .gd{width:60px;height:1px;background:var(--gold);margin:26px 0}
+
+    /* ── NUMBERS BAR ─────────────────────────────────────── */
+    #nb{background:var(--dark2);border-top:1px solid rgba(201,168,76,.15);border-bottom:1px solid rgba(201,168,76,.15);padding:52px 0}
+    .ng{display:grid;grid-template-columns:repeat(5,1fr)}
+    .ni{text-align:center;padding:18px;border-right:1px solid rgba(201,168,76,.1)}
+    .ni:last-child{border-right:none}
+    .nv{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--gold-l);display:block;line-height:1}
+    .ns{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tm);margin-top:8px;display:block}
+
+    /* ── GALLERY STRIP ───────────────────────────────────── */
+    .gstrip{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:300px 300px;gap:3px}
+    .gi{overflow:hidden;cursor:pointer;position:relative;background:#111}
+    .gi:first-child{grid-row:1/3}
+    .gi img{width:100%;height:100%;object-fit:cover;transition:transform .7s;display:block}
+    .gi:hover img{transform:scale(1.05)}
+    .gcap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.8),transparent);padding:26px 18px 12px;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.7);text-transform:uppercase;transform:translateY(100%);transition:transform .3s}
+    .gi:hover .gcap{transform:translateY(0)}
+
+    /* ── CONCEITO ─────────────────────────────────────────── */
+    #conceito{background:var(--dark2)}
+    .concg{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .pilg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+    .pilc{padding:22px;border:1px solid rgba(201,168,76,.12);background:rgba(201,168,76,.03);transition:border-color .3s}
+    .pilc:hover{border-color:rgba(201,168,76,.35)}
+    .pilicon{font-size:26px;margin-bottom:12px}
+    .pilt{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .pild{font-size:12px;line-height:1.7;color:var(--tm)}
+    .img-block{position:relative}
+    .img-block img{width:100%;height:520px;object-fit:cover;display:block}
+    .img-badge{position:absolute;bottom:24px;right:24px;background:rgba(10,10,10,.9);border:1px solid rgba(201,168,76,.3);padding:16px 22px;text-align:center}
+    .img-badge .v{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold-l)}
+    .img-badge .l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--tm);margin-top:4px}
+
+    /* ── PRODUTO ─────────────────────────────────────────── */
+    #produto{background:var(--dark)}
+    .prodg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.15);margin-top:52px}
+    .prodc{background:var(--dark2);padding:40px 32px;position:relative;overflow:hidden;transition:background .3s}
+    .prodc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+    .prodc:hover{background:#1a1a1a}
+    .prodc:hover::before{transform:scaleX(1)}
+    .prod-num{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:rgba(201,168,76,.1);position:absolute;top:16px;right:20px;line-height:1}
+    .prod-tag{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .prod-t{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#fff;margin-bottom:8px}
+    .prod-a{font-size:12px;color:var(--tm);margin-bottom:20px}
+    .prod-price{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold-l)}
+    .prod-vgv{font-size:10px;color:var(--tm);margin-top:4px;letter-spacing:1px}
+    .prod-f{margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,.06)}
+    .prod-feat{font-size:11px;color:var(--tm);line-height:2}
+    .prodc.hotel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:32px;align-items:center}
+
+    /* ── NÚMEROS ─────────────────────────────────────────── */
+    #numeros{background:var(--navy)}
+    .numg{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+    .scen-g{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.2);margin-top:32px}
+    .scen-c{background:var(--navy2);padding:28px 22px;text-align:center}
+    .scen-c.base{background:var(--navy3)}
+    .scen-tag{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+    .scen-v{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold-l);display:block}
+    .scen-l{font-size:10px;color:var(--tm);margin-top:4px}
+    .kpi-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:32px}
+    .kpi-c{padding:24px;border:1px solid rgba(201,168,76,.15);background:rgba(201,168,76,.04)}
+    .kpi-v{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold-l)}
+    .kpi-l{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tm);margin-top:6px}
+    .kpi-s{font-size:11px;color:rgba(255,255,255,.3);margin-top:4px}
+
+    /* ── LOCALIZAÇÃO ─────────────────────────────────────── */
+    #loc{background:var(--dark)}
+    .locg{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+    #mapa{height:440px;border:1px solid rgba(201,168,76,.15)}
+    .loc-item{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.06);align-items:flex-start}
+    .loc-item:last-child{border-bottom:none}
+    .loc-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+    .loc-l{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .loc-v{font-size:13px;color:var(--tl)}
+
+    /* ── CRONOGRAMA ──────────────────────────────────────── */
+    #cron{background:var(--dark2)}
+    .cron-g{display:flex;flex-direction:column;gap:1px;margin-top:48px}
+    .cron-item{display:grid;grid-template-columns:80px 160px 1fr auto;gap:24px;align-items:center;padding:24px 32px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);transition:all .3s}
+    .cron-item:hover{background:rgba(201,168,76,.04);border-color:rgba(201,168,76,.2)}
+    .cron-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(201,168,76,.2);line-height:1}
+    .cron-period{display:inline-block;background:var(--navy);color:var(--gold);font-size:9px;letter-spacing:2px;padding:5px 12px;text-transform:uppercase;border:1px solid rgba(201,168,76,.3)}
+    .cron-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff;margin-bottom:6px}
+    .cron-desc{font-size:12px;color:var(--tm);line-height:1.7}
+    .cron-inv{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold-l);text-align:right;white-space:nowrap}
+    .cron-inv-l{font-size:9px;letter-spacing:1px;color:var(--tm);text-align:right;margin-top:2px}
+
+    /* ── SPE ─────────────────────────────────────────────── */
+    #spe{background:var(--dark)}
+    .speg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.1);margin-top:48px}
+    .spec{background:var(--dark2);padding:36px 28px}
+    .spet{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .spen{font-family:'Cormorant Garamond',serif;font-size:22px;color:#fff;margin-bottom:22px}
+    .spel{list-style:none;display:flex;flex-direction:column;gap:12px}
+    .spel li{font-size:12px;color:var(--tm);line-height:1.5;padding-left:16px;position:relative}
+    .spel li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:11px}
+    .spep{margin-top:32px;padding:28px 32px;border:1px solid rgba(201,168,76,.15);background:rgba(201,168,76,.03)}
+    .spepp{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+    .spepg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .spepi{font-size:12px;color:var(--tm);padding:12px 16px;border:1px solid rgba(255,255,255,.06);line-height:1.5}
+
+    /* ── PASSOS ──────────────────────────────────────────── */
+    #passos{background:var(--dark2)}
+    .pasg{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+    .pasc{padding:32px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);position:relative;transition:all .3s}
+    .pasc:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.04)}
+    .pasn{position:absolute;top:20px;right:20px;font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(201,168,76,.12);line-height:1}
+    .pasi{font-size:32px;margin-bottom:16px}
+    .past{font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff;margin-bottom:10px}
+    .pasd{font-size:12px;color:var(--tm);line-height:1.7;margin-bottom:16px}
+    .pastime{display:inline-block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:4px 12px}
+
+    /* ── GALERIA ─────────────────────────────────────────── */
+    #galeria{background:var(--dark)}
+    .gg8{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:240px 240px;gap:3px}
+
+    /* ── CONTATO ─────────────────────────────────────────── */
+    #contato{background:var(--navy)}
+    .cog{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+    .cii{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.06);align-items:flex-start}
+    .cil{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .civ{font-size:13px;color:var(--tl)}
+    .cof{display:flex;flex-direction:column;gap:16px}
+    .cfr{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .cfg{display:flex;flex-direction:column;gap:6px}
+    .cfg label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tm)}
+    .cfg input,.cfg select,.cfg textarea{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--tl);padding:12px 16px;font-family:'Montserrat',sans-serif;font-size:13px;transition:border-color .3s;outline:none;width:100%}
+    .cfg input:focus,.cfg select:focus,.cfg textarea:focus{border-color:var(--gold)}
+    .cfg select option{background:var(--dark)}
+    .cfg textarea{resize:vertical;min-height:120px}
+    .cfsub{background:var(--gold);color:var(--dark);border:none;padding:16px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all .3s;width:100%}
+    .cfsub:hover{background:var(--gold-l)}
+    .fsuc{display:none;text-align:center;padding:48px 32px;border:1px solid rgba(201,168,76,.3)}
+    .fsuc h3{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold-l);margin-bottom:12px}
+    .fsuc p{font-size:13px;color:var(--tm);line-height:1.7}
+    .hbox{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.15);padding:28px 32px;margin-top:32px}
+    .hbox-t{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .hbox-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .hbox-i{font-size:12px;color:var(--tm);padding:10px 14px;border:1px solid rgba(255,255,255,.06);line-height:1.5}
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer{background:var(--dark);border-top:1px solid rgba(201,168,76,.1);padding:60px 0 40px}
+    .fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:48px}
+    .fbd{font-size:12px;color:var(--tm);line-height:1.8;margin-top:18px;max-width:380px}
+    .fct{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .fcl{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .fcl a{font-size:12px;color:var(--tm);text-decoration:none;transition:color .3s}
+    .fcl a:hover{color:var(--gold)}
+    .fb{border-top:1px solid rgba(255,255,255,.06);padding-top:28px;display:flex;flex-direction:column;gap:8px}
+    .fc{font-size:11px;color:var(--tm)}
+    .fl{font-size:10px;color:rgba(255,255,255,.2);line-height:1.6}
+
+    /* ── LIGHTBOX ─────────────────────────────────────────── */
+    .lb{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:none;align-items:center;justify-content:center}
+    .lb.active{display:flex}
+    .lb img{max-width:90vw;max-height:88vh;object-fit:contain}
+    .lbc{position:absolute;top:20px;right:20px;background:none;border:1px solid rgba(255,255,255,.3);color:#fff;width:44px;height:44px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}
+    .lbc:hover{border-color:var(--gold);color:var(--gold)}
+    .confidencial-ribbon{position:fixed;bottom:24px;right:24px;background:rgba(10,10,10,.9);border:1px solid rgba(201,168,76,.3);padding:8px 16px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);z-index:500;pointer-events:none}
+
+    @media(max-width:768px){
+      nav{padding:16px 20px}.nl{display:none}
+      .ct{padding:0 24px}section{padding:72px 0}
+      .hstats{gap:24px}.ht{font-size:52px}
+      .ng{grid-template-columns:repeat(2,1fr)}
+      .gstrip{grid-template-columns:1fr;grid-template-rows:auto}
+      .gstrip .gi:first-child{grid-row:auto}
+      .concg,.numg,.locg,.cog{grid-template-columns:1fr;gap:40px}
+      .prodg{grid-template-columns:1fr}.prodc.hotel{grid-template-columns:1fr 1fr}
+      .speg,.spepg{grid-template-columns:1fr}
+      .pasg{grid-template-columns:1fr}
+      .gg8{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+      .fg{grid-template-columns:1fr}
+      .cron-item{grid-template-columns:60px 1fr;grid-template-rows:auto auto;gap:12px}
+      .cron-inv{text-align:left}
+      .scen-g{grid-template-columns:1fr}
+      .kpi-row{grid-template-columns:1fr}
+      .hbox-g{grid-template-columns:1fr}
+      .cfr{grid-template-columns:1fr}
+      .lang-bar{top:auto;bottom:0;right:0;left:0;border-radius:0;border:none;border-top:1px solid rgba(201,168,76,.25);justify-content:center}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE SWITCHER -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('pt')" id="btn-pt"><span class="flag">🇧🇷</span> PT</button>
+  <button class="lang-btn" onclick="setLang('en')" id="btn-en"><span class="flag">🇺🇸</span> EN</button>
+  <button class="lang-btn" onclick="setLang('es')" id="btn-es"><span class="flag">🇪🇸</span> ES</button>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="logo" href="#">
+    <div class="logo-badge">LG</div>
+    <div class="logo-text">
+      <span>Laguna Guarajuba</span>
+      <span data-i="nav-sub">Resort 5★ · Residências Branded</span>
+    </div>
+  </a>
+  <ul class="nl">
+    <li><a href="#conceito" data-i="nav-project">O Projeto</a></li>
+    <li><a href="#produto" data-i="nav-product">Produto</a></li>
+    <li><a href="#numeros" data-i="nav-numbers">Números</a></li>
+    <li><a href="#loc" data-i="nav-location">Localização</a></li>
+    <li><a href="#cron" data-i="nav-schedule">Cronograma</a></li>
+    <li><a href="#spe">SPE</a></li>
+    <li><a href="#contato" class="ncta" data-i="nav-cta">Solicitar NDA</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hbg"></div>
+  <div class="himg"></div>
+  <div class="hov"></div><div class="hov2"></div>
+  <div class="hc">
+    <div class="hbadge" data-i="hero-badge">Memorando de Investimento · Maio 2026</div>
+    <p class="hpre">Guarajuba · Camaçari · Bahia · Brasil</p>
+    <h1 class="ht">Laguna<br><em>Guarajuba</em></h1>
+    <p class="hsub" data-i="hero-sub">Resort de Ultraluxo &amp; Residências Branded · 30,87 Hectares</p>
+    <div class="hstats">
+      <div class="hstat"><span class="hstat-v">R$ 1,1 bi</span><span class="hstat-l" data-i="hs1">VGV Total do Projeto</span></div>
+      <div class="hstat"><span class="hstat-v">28–34%</span><span class="hstat-l" data-i="hs2">TIR a.a. (cenário base)</span></div>
+      <div class="hstat"><span class="hstat-v">30,87 ha</span><span class="hstat-l" data-i="hs3">Frente dupla oceano + lagoa</span></div>
+      <div class="hstat"><span class="hstat-v">72 <span data-i="hs4m">meses</span></span><span class="hstat-l" data-i="hs4">Incorporação completa</span></div>
+    </div>
+    <div class="hact">
+      <a href="#contato" class="btn1" data-i="hero-btn1">Solicitar NDA &amp; Pacote de Investimento</a>
+      <a href="#conceito" class="btn2" data-i="hero-btn2">Conhecer o Projeto</a>
+    </div>
+  </div>
+  <div class="hscroll"><span>Scroll</span><div class="sl"></div></div>
+</section>
+
+<!-- NUMBERS BAR -->
+<div id="nb">
+  <div class="ct"><div class="ng">
+    <div class="ni"><span class="nv">R$ 400/m²</span><span class="ns" data-i="nb1">Preço de Incorporação</span></div>
+    <div class="ni"><span class="nv">50–66%</span><span class="ns" data-i="nb2">Deságio sobre Valor de Mercado</span></div>
+    <div class="ni"><span class="nv">60 Villas</span><span class="ns" data-i="nb3">Residências com Piscina Privativa</span></div>
+    <div class="ni"><span class="nv">120 UH</span><span class="ns" data-i="nb4">Hotel 5★ Bandeira Internacional</span></div>
+    <div class="ni"><span class="nv">&lt;3%</span><span class="ns" data-i="nb5">Vacância Produtos Premium</span></div>
+  </div></div>
+</div>
+
+<!-- GALLERY STRIP -->
+<div class="ct" style="padding-top:0">
+  <div class="gstrip">
+    <div class="gi" onclick="openLB('16.jpg')"><img src="16.jpg" alt="Vista Aérea" loading="lazy"><div class="gcap" data-i="g1">Vista Aérea · Laguna Guarajuba</div></div>
+    <div class="gi" onclick="openLB('06.jpg')"><img src="06.jpg" alt="Hotel" loading="lazy"><div class="gcap" data-i="g2">Hotel 5★ · Piscina Principal</div></div>
+    <div class="gi" onclick="openLB('09.jpg')"><img src="09.jpg" alt="Villas" loading="lazy"><div class="gcap" data-i="g3">Villas · Frente Mar</div></div>
+    <div class="gi" onclick="openLB('07.jpg')"><img src="07.jpg" alt="Pool" loading="lazy"><div class="gcap" data-i="g4">Piscina Hotel · Infinity Edge</div></div>
+    <div class="gi" onclick="openLB('14.jpg')"><img src="14.jpg" alt="Beach Club" loading="lazy"><div class="gcap" data-i="g5">Beach Club · Palha Nativa</div></div>
+  </div>
+</div>
+
+<!-- CONCEITO -->
+<section id="conceito">
+  <div class="ct"><div class="concg">
+    <div>
+      <span class="stag" data-i="s1-tag">◆ O Projeto</span>
+      <h2 class="st" data-i="s1-title">A última gleba<br>beira-mar de<br><em>grande escala.</em></h2>
+      <div class="gd"></div>
+      <p class="sd" data-i="s1-desc">30,87 hectares de frente dupla hídrica — oceano Atlântico e Lagoa de Guarajuba — no endereço mais exclusivo do litoral baiano. Uma oportunidade única de desenvolver o maior complexo de ultraluxo do Nordeste brasileiro.</p>
+      <div class="pilg">
+        <div class="pilc"><div class="pilicon">🌊</div><div class="pilt" data-i="p1t">Dupla Frente Hídrica</div><div class="pild" data-i="p1d">Oceano Atlântico + Lagoa de Guarajuba — exclusividade absoluta e irrepetível.</div></div>
+        <div class="pilc"><div class="pilicon">🏨</div><div class="pilt" data-i="p2t">Hotel 5★ Bandeira Global</div><div class="pild" data-i="p2d">120 UH operado por Rosewood, Six Senses, Fasano ou Aman. EBITDA R$ 52M/ano.</div></div>
+        <div class="pilc"><div class="pilicon">🏡</div><div class="pilt" data-i="p3t">60 Villas de Ultraluxo</div><div class="pild" data-i="p3d">Piscina privativa, telhado verde e deck de madeira nobre. 3 tipologias de 280 a 450m².</div></div>
+        <div class="pilc"><div class="pilicon">💎</div><div class="pilt" data-i="p4t">Deságio de 50–66%</div><div class="pild" data-i="p4d">Terreno a R$ 400/m² vs. mercado de R$ 800–1.200/m². Valor justo: R$ 247–370M.</div></div>
+        <div class="pilc"><div class="pilicon">✈️</div><div class="pilt" data-i="p5t">Helipad + Marina</div><div class="pild" data-i="p5d">Helipad ANAC certificado e marina com 8 vagas. Acesso aéreo e náutico privativo.</div></div>
+        <div class="pilc"><div class="pilicon">🌿</div><div class="pilt" data-i="p6t">LEED Silver</div><div class="pild" data-i="p6d">Sustentabilidade como diferencial. ETE própria, energia solar e paisagismo nativo.</div></div>
+      </div>
+    </div>
+    <div class="img-block">
+      <img src="01_1.jpg" alt="Vista Drone" style="height:520px;width:100%;object-fit:cover">
+      <div class="img-badge">
+        <div class="v">308.722 m²</div>
+        <div class="l">Matr. 3977 · CRI Camaçari</div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- PRODUTO -->
+<section id="produto">
+  <div class="ct">
+    <span class="stag" data-i="prod-tag">◆ Programa de Produtos</span>
+    <h2 class="st" data-i="prod-title">Mix Cuidadosamente<br><em>Calibrado.</em></h2>
+    <p class="sd" data-i="prod-desc">Três tipologias residenciais premium com piscina privativa e ativo hoteleiro retido para capitalização futura.</p>
+    <div class="prodg">
+      <div class="prodc">
+        <div class="prod-num">01</div>
+        <div class="prod-tag" data-i="vt1">Villa Oceânica</div>
+        <div class="prod-t" data-i="vt1a">Frente Mar · 450m²</div>
+        <div class="prod-a" data-i="vt1b">20 unidades · Infinity piscina · Deck ipe · Telhado verde</div>
+        <div class="prod-price">R$ 11,5 M</div>
+        <div class="prod-vgv" data-i="vt1c">VGV PARCIAL: R$ 230,0 M</div>
+        <div class="prod-f"><div class="prod-feat" data-i="vt1f">✓ Piscina privativa infinity edge<br>✓ Vista direta Oceano Atlântico<br>✓ Telhado verde + deck madeira nobre<br>✓ Automação smart home completa</div></div>
+      </div>
+      <div class="prodc">
+        <div class="prod-num">02</div>
+        <div class="prod-tag" data-i="vt2">Villa Laguna</div>
+        <div class="prod-t" data-i="vt2a">Vista Lagoa · 380m²</div>
+        <div class="prod-a" data-i="vt2b">20 unidades · Piscina privativa · Marina access · Telhado verde</div>
+        <div class="prod-price">R$ 7,2 M</div>
+        <div class="prod-vgv" data-i="vt2c">VGV PARCIAL: R$ 144,0 M</div>
+        <div class="prod-f"><div class="prod-feat" data-i="vt2f">✓ Piscina privativa<br>✓ Vista panorâmica lagoa<br>✓ Acesso direto à marina<br>✓ Jardim privativo tropical</div></div>
+      </div>
+      <div class="prodc">
+        <div class="prod-num">03</div>
+        <div class="prod-tag" data-i="vt3">Villa Garden</div>
+        <div class="prod-t" data-i="vt3a">Jardim Privativo · 280m²</div>
+        <div class="prod-a" data-i="vt3b">20 unidades · Piscina · Paisagismo nativo · Melhor custo-benefício</div>
+        <div class="prod-price">R$ 4,2 M</div>
+        <div class="prod-vgv" data-i="vt3c">VGV PARCIAL: R$ 84,0 M</div>
+        <div class="prod-f"><div class="prod-feat" data-i="vt3f">✓ Piscina privativa<br>✓ Jardim paisagístico exclusivo<br>✓ Programa rental pool integrado<br>✓ Maior velocidade de absorção</div></div>
+      </div>
+      <div class="prodc hotel">
+        <div>
+          <div class="prod-tag" data-i="ht">Ativo Retido · Bandeira Internacional</div>
+          <div class="prod-t" style="font-size:28px">Hotel 5★ Laguna Grand</div>
+          <div class="prod-a" data-i="hta">120 UH · 18.000 m² total · Rooftop pool · Spa 12 cabines · Restaurante assinado</div>
+        </div>
+        <div><div class="prod-price" style="font-size:40px">~R$ 650 M</div><div class="prod-vgv" data-i="htb">ATIVO CAPITALIZADO · 8% Cap Rate · EBITDA R$ 52M/ano</div></div>
+        <div><div class="prod-feat" data-i="htf1">✓ Bandeiras alvo: Rosewood, Fasano, Six Senses, Aman<br>✓ Diária média projetada: R$ 2.800 / 75% ocupação<br>✓ EBITDA margin 35% estabilizado</div></div>
+        <div><div class="prod-feat" data-i="htf2">✓ Piscinas rooftop + principal (1.050 m²)<br>✓ Helipad ANAC + Marina 8 vagas<br>✓ Energia solar 600 kWp + LEED Silver</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA 2 -->
+<div style="background:var(--dark2);padding:60px">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="gg8">
+      <div class="gi" onclick="openLB('01_1.jpg')"><img src="01_1.jpg" alt="" loading="lazy"><div class="gcap" data-i="g2-1">Villas · Vista Drone</div></div>
+      <div class="gi" onclick="openLB('02.jpg')"><img src="02.jpg" alt="" loading="lazy"><div class="gcap" data-i="g2-2">Resort · Vista Geral</div></div>
+      <div class="gi" onclick="openLB('04.jpg')"><img src="04.jpg" alt="" loading="lazy"><div class="gcap" data-i="g2-3">Hotel 5★ · Vista Sul</div></div>
+      <div class="gi" onclick="openLB('08.jpg')"><img src="08.jpg" alt="" loading="lazy"><div class="gcap" data-i="g2-4">Villas · Vista Lagoa</div></div>
+      <div class="gi" onclick="openLB('09.jpg')"><img src="09.jpg" alt="" loading="lazy"><div class="gcap" data-i="g2-5">Helipad + Beach Club</div></div>
+      <div class="gi" onclick="openLB('16.jpg')"><img src="16.jpg" alt="" loading="lazy"><div class="gcap" data-i="g2-6">Vista Geral · Lagoa</div></div>
+      <div class="gi" onclick="openLB('13.jpg')"><img src="13.jpg" alt="" loading="lazy"><div class="gcap" data-i="g2-7">Complexo · Lagoa</div></div>
+      <div class="gi" onclick="openLB('15.jpg')"><img src="15.jpg" alt="" loading="lazy"><div class="gcap" data-i="g2-8">Frente Mar · Entardecer</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NÚMEROS -->
+<section id="numeros">
+  <div class="ct"><div class="numg">
+    <div>
+      <span class="stag" data-i="num-tag">◆ Os Números</span>
+      <h2 class="st" data-i="num-title">Retorno<br><em>Excepcional.</em></h2>
+      <div class="gd"></div>
+      <p class="sd" data-i="num-desc">Modelo financeiro com três cenários robustos. No cenário pessimista, o ativo hoteleiro garante resultado positivo expressivo.</p>
+      <div class="kpi-row">
+        <div class="kpi-c"><div class="kpi-v">R$ 1,1 bi</div><div class="kpi-l" data-i="k1">VGV Total (residencial + hotel)</div><div class="kpi-s" data-i="k1s">60 villas + 120 UH hoteleiras</div></div>
+        <div class="kpi-c"><div class="kpi-v">R$ 312 M</div><div class="kpi-l" data-i="k2">Lucro líquido estimado</div><div class="kpi-s" data-i="k2s">Cenário base — margem 28%</div></div>
+        <div class="kpi-c"><div class="kpi-v">28–34%</div><div class="kpi-l" data-i="k3">TIR projetada a.a.</div><div class="kpi-s" data-i="k3s">72 meses — incorporação completa</div></div>
+        <div class="kpi-c"><div class="kpi-v">36–42m</div><div class="kpi-l" data-i="k4">Payback do capital</div><div class="kpi-s" data-i="k4s">A partir do início das vendas</div></div>
+      </div>
+      <div class="hbox" style="margin-top:24px">
+        <div class="hbox-t" data-i="prot-t">🔒 Mecanismos de Proteção ao Investidor</div>
+        <div class="hbox-g">
+          <div class="hbox-i" data-i="pr1">Alienação fiduciária do terreno como garantia real</div>
+          <div class="hbox-i" data-i="pr2">Conta escrow dedicada com segregação total</div>
+          <div class="hbox-i" data-i="pr3">Prioridade de retorno ao investidor sênior</div>
+          <div class="hbox-i" data-i="pr4">Relatórios mensais auditados + data room</div>
+          <div class="hbox-i" data-i="pr5">Cláusula de não-alienação sem anuência</div>
+          <div class="hbox-i" data-i="pr6">Reunião trimestral de cotistas com resultado</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="margin-bottom:8px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)" data-i="scen-label">Análise de Cenários</div>
+      <div class="scen-g">
+        <div class="scen-c">
+          <div class="scen-tag" data-i="sc1t">Pessimista · 75% vendas</div>
+          <span class="scen-v">R$ 296 M</span>
+          <div class="scen-l" data-i="sc1l">Resultado total · TIR 19–22% a.a.</div>
+          <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.3)" data-i="sc1n">Protegido pelo ativo hoteleiro</div>
+        </div>
+        <div class="scen-c base" style="border:2px solid rgba(201,168,76,.5)">
+          <div class="scen-tag" data-i="sc2t">Base · 92% vendas</div>
+          <span class="scen-v" style="font-size:40px">R$ 474 M</span>
+          <div class="scen-l" data-i="sc2l">Resultado total · TIR <strong style="color:var(--gold-l)">28–32% a.a.</strong></div>
+          <div style="margin-top:12px;font-size:11px;color:var(--gold)" data-i="sc2n">★ Cenário projetado</div>
+        </div>
+        <div class="scen-c">
+          <div class="scen-tag" data-i="sc3t">Otimista · 100% vendas</div>
+          <span class="scen-v">R$ 610 M</span>
+          <div class="scen-l" data-i="sc3l">Resultado total · TIR 34–40% a.a.</div>
+          <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.3)" data-i="sc3n">Com venda ativo hotel R$ 750M</div>
+        </div>
+      </div>
+      <div style="margin-top:24px;padding:24px;border:1px solid rgba(201,168,76,.2);background:rgba(201,168,76,.04)">
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px" data-i="land-eval">Avaliação do Terreno</div>
+        <table style="width:100%;font-size:12px;border-collapse:collapse;color:var(--tm)">
+          <tr style="border-bottom:1px solid rgba(255,255,255,.06)"><td style="padding:8px 0" data-i="te1">Preço incorporação (base)</td><td style="text-align:right;color:var(--gold-l);font-family:'Cormorant Garamond',serif;font-size:16px">R$ 400/m²</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.06)"><td style="padding:8px 0" data-i="te2">Valor justo estimado (mercado)</td><td style="text-align:right;color:var(--tl)">R$ 800–1.200/m²</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.06)"><td style="padding:8px 0" data-i="te3">Patrimônio estimado total</td><td style="text-align:right;color:var(--tl)">R$ 247–370 M</td></tr>
+          <tr><td style="padding:8px 0" data-i="te4">Deságio sobre valor justo</td><td style="text-align:right;color:var(--gold-l);font-weight:700">50–66%</td></tr>
+        </table>
+      </div>
+      <div style="margin-top:16px;padding:20px 24px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)">
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px" data-i="cap-need">Necessidade de Capital · Investidores</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--gold-l)">R$ 80–150 M</div>
+        <div style="font-size:11px;color:var(--tm);margin-top:6px" data-i="cap-desc">Capital equity M0–M36. Saldo via receita de vendas + financiamento SFI/CEF.</div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- LOCALIZAÇÃO -->
+<section id="loc">
+  <div class="ct">
+    <span class="stag" data-i="loc-tag">◆ Localização Estratégica</span>
+    <h2 class="st" data-i="loc-title">O endereço mais<br><em>exclusivo</em> da Bahia.</h2>
+    <div class="gd"></div>
+    <div class="locg">
+      <div>
+        <div id="mapa"></div>
+        <div style="margin-top:12px;font-size:10px;color:var(--tm);text-align:center;letter-spacing:1px">📍 Rodovia BA-099 (Estrada do Coco) · Guarajuba · Camaçari · BA</div>
+      </div>
+      <div>
+        <div class="loc-item"><div class="loc-icon">📍</div><div><div class="loc-l" data-i="li1l">Endereço</div><div class="loc-v">Rodovia BA-099, s/n — Guarajuba — Camaçari — BA</div></div></div>
+        <div class="loc-item"><div class="loc-icon">✈️</div><div><div class="loc-l" data-i="li2l">Aeroporto</div><div class="loc-v" data-i="li2v">60 km do Aeroporto de Salvador (SSA) · 50 min de carro</div></div></div>
+        <div class="loc-item"><div class="loc-icon">🌊</div><div><div class="loc-l" data-i="li3l">Frente Hídrica</div><div class="loc-v" data-i="li3v">Oceano Atlântico + Lagoa de Guarajuba — dupla exclusividade</div></div></div>
+        <div class="loc-item"><div class="loc-icon">🏙️</div><div><div class="loc-l" data-i="li4l">Capital</div><div class="loc-v" data-i="li4v">60 min do Centro Histórico de Salvador</div></div></div>
+        <div class="loc-item"><div class="loc-icon">🏗️</div><div><div class="loc-l" data-i="li5l">Contexto Imediato</div><div class="loc-v" data-i="li5v">Entre Alphaville Guarajuba e Vila Galé — bairro premium consolidado</div></div></div>
+        <div class="loc-item"><div class="loc-icon">📐</div><div><div class="loc-l" data-i="li6l">Área e Perímetro</div><div class="loc-v">308.722,60 m² · Perímetro 5.907,07 m · SIRGAS2000</div></div></div>
+        <div class="hbox" style="margin-top:24px">
+          <div class="hbox-t" data-i="ctx-t">Contexto de Mercado · Vizinhança</div>
+          <div class="hbox-g">
+            <div class="hbox-i" data-i="cx1">Alphaville Guarajuba — lotes R$ 964–2.256/m²</div>
+            <div class="hbox-i" data-i="cx2">Vila Galé Eco Resort — resort consolidado</div>
+            <div class="hbox-i" data-i="cx3">Anantara Hotels — 1° resort no Brasil (em obras)</div>
+            <div class="hbox-i" data-i="cx4">Grupo Prima — maior invest. privado em turismo do Brasil</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CRONOGRAMA -->
+<section id="cron">
+  <div class="ct">
+    <span class="stag" data-i="cr-tag">◆ Cronograma Físico-Financeiro</span>
+    <h2 class="st" data-i="cr-title">6 Fases · 72 Meses<br><em>Entrega Escalonada.</em></h2>
+    <p class="sd" data-i="cr-desc">Estrutura de desembolso otimizada com receitas de pré-vendas financiando as obras a partir do mês 24.</p>
+    <div class="cron-g">
+      <div class="cron-item"><div class="cron-num">01</div><div><div class="cron-period">M0–M6</div></div><div><div class="cron-title" data-i="cr1t">Pré-Incorporação</div><div class="cron-desc" data-i="cr1d">Due diligence · Avaliação CREA · Constituição SPE · Entrada 25% terreno · Protocolo EIA/RIMA no INEMA</div></div><div><div class="cron-inv">R$ 45 M</div><div class="cron-inv-l" data-i="cr1l">Investimento estimado</div></div></div>
+      <div class="cron-item"><div class="cron-num">02</div><div><div class="cron-period">M6–M18</div></div><div><div class="cron-title" data-i="cr2t">Projetos &amp; Licenciamento</div><div class="cron-desc" data-i="cr2d">Masterplan · Projetos executivos · EIA/RIMA · Licença Prévia INEMA · Registro de Incorporação · Pré-lançamento VIP</div></div><div><div class="cron-inv">R$ 15 M</div><div class="cron-inv-l" data-i="cr2l">Projetos + licenças</div></div></div>
+      <div class="cron-item"><div class="cron-num">03</div><div><div class="cron-period">M12–M24</div></div><div><div class="cron-title" data-i="cr3t">Infraestrutura Base</div><div class="cron-desc" data-i="cr3d">Terraplanagem 308.722m² · Redes saneamento · Vias internas · Helipad · Marina / Pier · Fundações do hotel</div></div><div><div class="cron-inv">R$ 54 M</div><div class="cron-inv-l" data-i="cr3l">Infraestrutura geral</div></div></div>
+      <div class="cron-item"><div class="cron-num">04</div><div><div class="cron-period">M18–M42</div></div><div><div class="cron-title" data-i="cr4t">Hotel &amp; Villas Oceânicas</div><div class="cron-desc" data-i="cr4d">Estrutura hotel completa · Vedações + revestimentos · Instalações prediais · 20 Villas Oceânicas entregues</div></div><div><div class="cron-inv">R$ 186 M</div><div class="cron-inv-l" data-i="cr4l">Maior fase de obra</div></div></div>
+      <div class="cron-item"><div class="cron-num">05</div><div><div class="cron-period">M36–M54</div></div><div><div class="cron-title" data-i="cr5t">FF&amp;E Hotel &amp; Villas Laguna</div><div class="cron-desc" data-i="cr5d">Mobiliário hotel (120 UH) · Restaurante assinado · Spa 12 cabines · 20 Villas Laguna entregues · Soft opening</div></div><div><div class="cron-inv">R$ 74 M</div><div class="cron-inv-l" data-i="cr5l">Acabamentos + FF&amp;E</div></div></div>
+      <div class="cron-item"><div class="cron-num">06</div><div><div class="cron-period">M54–M72</div></div><div><div class="cron-title" data-i="cr6t">Grand Opening &amp; Exit</div><div class="cron-desc" data-i="cr6d">20 Villas Garden entregues · Grand Opening hotel · Operação plena · LEED Silver · Venda ativo hoteleiro · Distribuição</div></div><div><div class="cron-inv">R$ 650 M</div><div class="cron-inv-l" data-i="cr6l">Capitalização ativo hotel</div></div></div>
+    </div>
+    <div style="text-align:center;margin-top:48px"><a href="#contato" class="btn1" data-i="cr-btn">Solicitar Modelo Financeiro Completo</a></div>
+  </div>
+</section>
+
+<!-- SPE -->
+<section id="spe">
+  <div class="ct">
+    <span class="stag" data-i="spe-tag">◆ Estrutura Societária</span>
+    <h2 class="st" data-i="spe-title">SPE · Proteção ao<br><em>Investidor.</em></h2>
+    <p class="sd" data-i="spe-desc">Entrada de 25% (R$ 30,87M) assegura a incorporação. Saldo do terreno via permuta com unidades ou parcelamento ao longo da obra.</p>
+    <div class="speg">
+      <div class="spec" style="background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12)">
+        <div class="spet" data-i="spe1t">Investidor Sênior · Capital</div>
+        <div class="spen" data-i="spe1n">Fundo / Family Office</div>
+        <ul class="spel">
+          <li data-i="spe1l1">Aporte inicial <strong style="color:var(--gold-l)">R$ 80–150M</strong> (fases M0–M36)</li>
+          <li data-i="spe1l2">TIR estimada <strong style="color:var(--gold-l)">28–34% a.a.</strong> no cenário base</li>
+          <li data-i="spe1l3">Prioridade de retorno antes do incorporador</li>
+          <li data-i="spe1l4">Payback <strong style="color:var(--gold-l)">36–42 meses</strong> do aporte</li>
+          <li data-i="spe1l5">Alienação fiduciária do terreno + conta escrow</li>
+          <li data-i="spe1l6">Relatórios mensais auditados + data room</li>
+        </ul>
+      </div>
+      <div class="spec">
+        <div class="spet" data-i="spe2t">Proprietária · Permuta</div>
+        <div class="spen">Ana Alves de Santana</div>
+        <ul class="spel">
+          <li data-i="spe2l1">Terreno 308.722m² — valor R$ 123,5M</li>
+          <li data-i="spe2l2">Entrada de <strong style="color:var(--gold-l)">25% = R$ 30,87M</strong> no ato</li>
+          <li data-i="spe2l3">Saldo via permuta de unidades ou parcelamento</li>
+          <li data-i="spe2l4">Matrícula 3977 — CRI Camaçari</li>
+          <li data-i="spe2l5">Georreferenciada SIRGAS2000</li>
+          <li data-i="spe2l6">Sem passivos identificados na due diligence preliminar</li>
+        </ul>
+      </div>
+      <div class="spec">
+        <div class="spet" data-i="spe3t">Incorporadora · Desenvolvimento</div>
+        <div class="spen">SPE Laguna Guarajuba</div>
+        <ul class="spel">
+          <li data-i="spe3l1">Gestão integral do empreendimento</li>
+          <li data-i="spe3l2">Equipe técnica, jurídica e comercial</li>
+          <li data-i="spe3l3">Desenvolvimento e execução completa</li>
+          <li data-i="spe3l4">Aprovações, licenças e registros</li>
+          <li data-i="spe3l5">Relatórios mensais auditados ao investidor</li>
+          <li data-i="spe3l6">Remuneração após retorno total do investidor</li>
+        </ul>
+      </div>
+    </div>
+    <div class="spep">
+      <div class="spepp" data-i="prot2-t">🔒 Mecanismos de Proteção ao Investidor</div>
+      <div class="spepg">
+        <div class="spepi" data-i="pp1">Alienação fiduciária do terreno como garantia real</div>
+        <div class="spepi" data-i="pp2">Conta escrow dedicada com segregação total de recursos</div>
+        <div class="spepi" data-i="pp3">Relatórios mensais auditados + data room permanente</div>
+        <div class="spepi" data-i="pp4">Reunião trimestral de cotistas com demonstrativos</div>
+        <div class="spepi" data-i="pp5">Prioridade de retorno: capital + TIR antes de distribuição</div>
+        <div class="spepi" data-i="pp6">Cláusula de não-alienação sem anuência do investidor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASSOS -->
+<section id="passos">
+  <div class="ct">
+    <span class="stag" data-i="ps-tag">◆ Como Participar</span>
+    <h2 class="st" data-i="ps-title">Próximos <em>Passos.</em></h2>
+    <p class="sd" data-i="ps-desc">Jornada estruturada com NDA, due diligence técnica e LOI antes de qualquer compromisso financeiro.</p>
+    <div class="pasg">
+      <div class="pasc"><div class="pasn">1</div><div class="pasi">🔒</div><h3 class="past" data-i="ps1t">Assinatura de NDA</h3><p class="pasd" data-i="ps1d">Acordo de confidencialidade para acesso ao pacote completo: modelo financeiro, masterplan, matrícula 3977, KML georreferenciado e laudos técnicos.</p><div class="pastime" data-i="ps1p">⏱ Semana 1</div></div>
+      <div class="pasc"><div class="pasn">2</div><div class="pasi">📋</div><h3 class="past" data-i="ps2t">Due Diligence</h3><p class="pasd" data-i="ps2d">Análise documental completa e visita técnica presencial ao terreno de 30,87 ha. Validação jurídico-ambiental e avaliação por engenheiro-avaliador CREA/BA.</p><div class="pastime" data-i="ps2p">⏱ 15–30 dias</div></div>
+      <div class="pasc"><div class="pasn">3</div><div class="pasi">📄</div><h3 class="past" data-i="ps3t">LOI + Term Sheet</h3><p class="pasd" data-i="ps3d">Letter of Intent com estrutura de capital, participações SPE, cronograma de aportes, mecanismos de proteção e exclusividade.</p><div class="pastime" data-i="ps3p">⏱ 30 dias</div></div>
+      <div class="pasc"><div class="pasn">4</div><div class="pasi">🏛️</div><h3 class="past" data-i="ps4t">Constituição da SPE</h3><p class="pasd" data-i="ps4d">Assinatura do contrato de incorporação, constituição da SPE, CNPJ, abertura de conta escrow dedicada e registro em cartório.</p><div class="pastime" data-i="ps4p">⏱ 45 dias</div></div>
+      <div class="pasc"><div class="pasn">5</div><div class="pasi">💰</div><h3 class="past" data-i="ps5t">Aporte Inicial · Entrada</h3><p class="pasd" data-i="ps5d">Pagamento da entrada do terreno: 25% × R$ 123,5M = <strong style="color:var(--gold-l)">R$ 30.872.250</strong>. Firmando a incorporação e iniciando o cronograma.</p><div class="pastime" data-i="ps5p">⏱ 60 dias</div></div>
+      <div class="pasc"><div class="pasn">6</div><div class="pasi">🏗️</div><h3 class="past" data-i="ps6t">EIA + Projetos</h3><p class="pasd" data-i="ps6d">Protocolo imediato do EIA/RIMA no INEMA-BA. Contratação do escritório de arquitetura e início do masterplan. Mobilização de toda a equipe técnica.</p><div class="pastime" data-i="ps6p">⏱ Mês 2</div></div>
+    </div>
+    <div style="text-align:center;margin-top:52px"><a href="#contato" class="btn1" data-i="ps-btn">Solicitar NDA e Pacote de Investimento</a></div>
+  </div>
+</section>
+
+<!-- GALERIA FINAL -->
+<section id="galeria" style="padding:72px 0">
+  <div class="ct">
+    <span class="stag" data-i="gal-tag">◆ Galeria</span>
+    <h2 class="st" data-i="gal-title">Laguna Guarajuba<br><em>em imagens.</em></h2>
+  </div>
+  <div style="padding:48px 60px 0;max-width:1280px;margin:0 auto">
+    <blockquote style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--tm);max-width:700px;margin:0 auto 48px;line-height:1.7;text-align:center" data-i="gal-quote">"A última grande oportunidade de frente dupla oceano + lagoa no litoral baiano. Um ativo irrepetível."</blockquote>
+    <div class="gg8">
+      <div class="gi" onclick="openLB('16.jpg')"><img src="16.jpg" alt="" loading="lazy"><div class="gcap" data-i="gf1">Vista Aérea Geral</div></div>
+      <div class="gi" onclick="openLB('02.jpg')"><img src="02.jpg" alt="" loading="lazy"><div class="gcap" data-i="gf2">Drone · Laguna</div></div>
+      <div class="gi" onclick="openLB('06.jpg')"><img src="06.jpg" alt="" loading="lazy"><div class="gcap" data-i="gf3">Hotel · Piscina</div></div>
+      <div class="gi" onclick="openLB('07.jpg')"><img src="07.jpg" alt="" loading="lazy"><div class="gcap" data-i="gf4">Hotel · Ângulo Sul</div></div>
+      <div class="gi" onclick="openLB('09.jpg')"><img src="09.jpg" alt="" loading="lazy"><div class="gcap" data-i="gf5">Villas · Oceânicas</div></div>
+      <div class="gi" onclick="openLB('13.jpg')"><img src="13.jpg" alt="" loading="lazy"><div class="gcap" data-i="gf6">Complexo · Lagoa</div></div>
+      <div class="gi" onclick="openLB('14.jpg')"><img src="14.jpg" alt="" loading="lazy"><div class="gcap" data-i="gf7">Beach Club · Palha</div></div>
+      <div class="gi" onclick="openLB('08.jpg')"><img src="08.jpg" alt="" loading="lazy"><div class="gcap" data-i="gf8">Helipad · Acesso</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="ct"><div class="cog">
+    <div>
+      <span class="stag" data-i="ct-tag">◆ Contato Direto</span>
+      <h2 class="st" data-i="ct-title">Vamos<br><em>Conversar.</em></h2>
+      <p class="sd" style="margin-bottom:32px" data-i="ct-desc">Preencha para receber o pacote completo: modelo financeiro mês a mês, masterplan, matrícula, KML georreferenciado, due diligence técnico e minuta de NDA/LOI.</p>
+      <div class="cii"><div style="font-size:20px">👤</div><div><div class="cil" data-i="ci1l">Contato</div><div class="civ">Renan Rass</div></div></div>
+      <div class="cii"><div style="font-size:20px">📍</div><div><div class="cil" data-i="ci2l">Empreendimento</div><div class="civ">Rodovia BA-099 · Guarajuba · Camaçari · BA</div></div></div>
+      <div class="cii"><div style="font-size:20px">📧</div><div><div class="cil">E-mail</div><div class="civ">renanrass.contato@gmail.com</div></div></div>
+      <div class="cii"><div style="font-size:20px">📱</div><div><div class="cil">WhatsApp</div><div class="civ">+55 (62) 99641-1604</div></div></div>
+      <div class="cii" style="border-bottom:none"><div style="font-size:20px">🔒</div><div><div class="cil" data-i="ci5l">Status</div><div class="civ" style="font-size:12px;color:var(--tm)" data-i="ci5v">Confidencial · Exclusivo para Investidores Qualificados</div></div></div>
+    </div>
+    <div>
+      <!-- FORMSPREE — substitua YOUR_FORM_ID pelo ID do seu formulário em formspree.io -->
+      <form class="cof" id="form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="hidden" name="_replyto" value="renanrass.contato@gmail.com">
+        <input type="hidden" name="_subject" value="[Laguna Guarajuba] Novo Lead de Investidor">
+        <input type="hidden" name="_lang" id="form-lang" value="pt">
+        <div class="cfr">
+          <div class="cfg"><label data-i="fl1">Nome Completo *</label><input type="text" name="nome" required data-i-ph="fl1p"></div>
+          <div class="cfg"><label data-i="fl2">E-mail *</label><input type="email" name="email" required placeholder="email@example.com"></div>
+        </div>
+        <div class="cfg"><label data-i="fl3">Telefone / WhatsApp *</label><input type="tel" name="telefone" required placeholder="+55 (00) 9 0000-0000"></div>
+        <div class="cfg"><label data-i="fl4">Perfil de Interesse</label>
+          <select name="perfil">
+            <option value="" data-i="fop0">Selecione seu perfil...</option>
+            <option data-i="fop1">Investidor Individual HNWI</option>
+            <option data-i="fop2">Family Office</option>
+            <option data-i="fop3">Fundo de Investimento / PE</option>
+            <option data-i="fop4">Incorporadora / Desenvolvedor</option>
+            <option data-i="fop5">Comprador Final de Villa</option>
+            <option data-i="fop6">Parceiro Estratégico / Operador Hoteleiro</option>
+          </select>
+        </div>
+        <div class="cfg"><label data-i="fl5">Capacidade de Aporte</label>
+          <select name="aporte">
+            <option value="" data-i="foa0">Selecione a faixa...</option>
+            <option>Acima de R$ 100M</option><option>R$ 50M – R$ 100M</option>
+            <option>R$ 20M – R$ 50M</option><option>R$ 5M – R$ 20M</option>
+            <option data-i="foab">Comprador Final de Villa (R$ 4–12M)</option>
+            <option data-i="foac">Prefiro não informar</option>
+          </select>
+        </div>
+        <div class="cfg"><label data-i="fl6">Mensagem</label><textarea name="mensagem" data-i-ph="fl6p"></textarea></div>
+        <button type="submit" class="cfsub" data-i="fsubmit">Solicitar NDA &amp; Pacote de Investimento</button>
+        <p style="font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-top:10px" data-i="fprivacy">Material protegido por confidencialidade · Uso restrito a investidores qualificados</p>
+      </form>
+      <div class="fsuc" id="fsuc">
+        <div style="font-size:36px;margin-bottom:16px">✉️</div>
+        <h3 data-i="fsuct">Obrigado pelo interesse.</h3>
+        <p data-i="fsucd">Renan Rass entrará em contato em até 24 horas com o pacote completo.<br><br><a href="https://wa.me/5562996411604" style="color:var(--gold-l)" target="_blank">WhatsApp (62) 99641-1604</a></p>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ct">
+    <div class="fg">
+      <div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:44px;height:44px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--dark)">LG</div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold)">Laguna Guarajuba</div>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tm)">Guarajuba · Camaçari · Bahia</div>
+          </div>
+        </div>
+        <p class="fbd" data-i="ft-desc">Resort de Ultraluxo 5★ &amp; 60 Residências Branded · 30,87 hectares de frente dupla oceano + lagoa · VGV R$ 1,1 Bilhão · TIR 28–34% a.a. · Proprietária: Ana Alves de Santana · Matr. 3977</p>
+      </div>
+      <div>
+        <div class="fct" data-i="ft-sec">Seções</div>
+        <ul class="fcl">
+          <li><a href="#conceito" data-i="fts1">O Projeto</a></li>
+          <li><a href="#produto" data-i="fts2">Produto · Mix de Villas</a></li>
+          <li><a href="#numeros" data-i="fts3">Números &amp; Cenários</a></li>
+          <li><a href="#loc" data-i="fts4">Localização</a></li>
+          <li><a href="#cron" data-i="fts5">Cronograma</a></li>
+          <li><a href="#spe">SPE</a></li>
+          <li><a href="#galeria" data-i="fts7">Galeria</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fct" data-i="ft-contact">Contato</div>
+        <ul class="fcl">
+          <li><a href="#contato" data-i="ftc1">Solicitar NDA &amp; Pacote</a></li>
+          <li><a href="#contato" data-i="ftc2">Reunião de Apresentação</a></li>
+          <li><a href="mailto:renanrass.contato@gmail.com">renanrass.contato@gmail.com</a></li>
+          <li><a href="https://wa.me/5562996411604" target="_blank">(62) 99641-1604 · WhatsApp</a></li>
+        </ul>
+        <div style="margin-top:24px;padding:16px;border:1px solid rgba(201,168,76,.15);background:rgba(201,168,76,.04)">
+          <div style="font-size:9px;letter-spacing:2px;color:var(--gold);margin-bottom:6px;text-transform:uppercase" data-i="ftd-t">Documentação</div>
+          <div style="font-size:11px;color:var(--tm);line-height:1.8">Matr. 3977 · CRI Camaçari<br>CCI: 76103607250<br>Área: 308.722,60 m² · 30,87 ha</div>
+        </div>
+      </div>
+    </div>
+    <div class="fb">
+      <p class="fc">© 2026 Renan Rass · Laguna Guarajuba · <span data-i="ft-rights">Todos os direitos reservados</span></p>
+      <p class="fl" data-i="ft-legal">Documento confidencial. Os dados, projeções e valores apresentados são estimativas para fins de análise de investimento. Não constituem oferta pública de valores mobiliários. Reprodução não autorizada é proibida.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" onclick="closeLB()"><button class="lbc" onclick="closeLB()">✕</button><img id="lbI" src="" alt=""></div>
+<div class="confidencial-ribbon" data-i="ribbon">CONFIDENCIAL · INVESTIDORES</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  TRANSLATIONS                                              -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+const T = {
+  pt: {
+    "nav-sub":"Resort 5★ · Residências Branded","nav-project":"O Projeto","nav-product":"Produto","nav-numbers":"Números","nav-location":"Localização","nav-schedule":"Cronograma","nav-cta":"Solicitar NDA",
+    "hero-badge":"Memorando de Investimento · Maio 2026","hero-sub":"Resort de Ultraluxo & Residências Branded · 30,87 Hectares",
+    "hs1":"VGV Total do Projeto","hs2":"TIR a.a. (cenário base)","hs3":"Frente dupla oceano + lagoa","hs4m":"meses","hs4":"Incorporação completa",
+    "hero-btn1":"Solicitar NDA & Pacote de Investimento","hero-btn2":"Conhecer o Projeto",
+    "nb1":"Preço de Incorporação","nb2":"Deságio sobre Valor de Mercado","nb3":"Residências com Piscina Privativa","nb4":"Hotel 5★ Bandeira Internacional","nb5":"Vacância Produtos Premium",
+    "g1":"Vista Aérea · Laguna Guarajuba","g2":"Hotel 5★ · Piscina Principal","g3":"Villas · Frente Mar","g4":"Piscina Hotel · Infinity Edge","g5":"Beach Club · Palha Nativa",
+    "g2-1":"Villas · Vista Drone","g2-2":"Resort · Vista Geral","g2-3":"Hotel 5★ · Vista Sul","g2-4":"Villas · Vista Lagoa","g2-5":"Helipad + Beach Club","g2-6":"Vista Geral · Lagoa","g2-7":"Complexo · Lagoa","g2-8":"Frente Mar · Entardecer",
+    "s1-tag":"◆ O Projeto","s1-title":"A última gleba<br>beira-mar de<br><em>grande escala.</em>","s1-desc":"30,87 hectares de frente dupla hídrica — oceano Atlântico e Lagoa de Guarajuba — no endereço mais exclusivo do litoral baiano. Uma oportunidade única de desenvolver o maior complexo de ultraluxo do Nordeste brasileiro.",
+    "p1t":"Dupla Frente Hídrica","p1d":"Oceano Atlântico + Lagoa de Guarajuba — exclusividade absoluta e irrepetível.",
+    "p2t":"Hotel 5★ Bandeira Global","p2d":"120 UH operado por Rosewood, Six Senses, Fasano ou Aman. EBITDA R$ 52M/ano.",
+    "p3t":"60 Villas de Ultraluxo","p3d":"Piscina privativa, telhado verde e deck de madeira nobre. 3 tipologias de 280 a 450m².",
+    "p4t":"Deságio de 50–66%","p4d":"Terreno a R$ 400/m² vs. mercado de R$ 800–1.200/m². Valor justo: R$ 247–370M.",
+    "p5t":"Helipad + Marina","p5d":"Helipad ANAC certificado e marina com 8 vagas. Acesso aéreo e náutico privativo.",
+    "p6t":"LEED Silver","p6d":"Sustentabilidade como diferencial. ETE própria, energia solar e paisagismo nativo.",
+    "prod-tag":"◆ Programa de Produtos","prod-title":"Mix Cuidadosamente<br><em>Calibrado.</em>","prod-desc":"Três tipologias residenciais premium com piscina privativa e ativo hoteleiro retido para capitalização futura.",
+    "vt1":"Villa Oceânica","vt1a":"Frente Mar · 450m²","vt1b":"20 unidades · Infinity piscina · Deck ipe · Telhado verde","vt1c":"VGV PARCIAL: R$ 230,0 M","vt1f":"✓ Piscina privativa infinity edge<br>✓ Vista direta Oceano Atlântico<br>✓ Telhado verde + deck madeira nobre<br>✓ Automação smart home completa",
+    "vt2":"Villa Laguna","vt2a":"Vista Lagoa · 380m²","vt2b":"20 unidades · Piscina privativa · Marina access · Telhado verde","vt2c":"VGV PARCIAL: R$ 144,0 M","vt2f":"✓ Piscina privativa<br>✓ Vista panorâmica lagoa<br>✓ Acesso direto à marina<br>✓ Jardim privativo tropical",
+    "vt3":"Villa Garden","vt3a":"Jardim Privativo · 280m²","vt3b":"20 unidades · Piscina · Paisagismo nativo · Melhor custo-benefício","vt3c":"VGV PARCIAL: R$ 84,0 M","vt3f":"✓ Piscina privativa<br>✓ Jardim paisagístico exclusivo<br>✓ Programa rental pool integrado<br>✓ Maior velocidade de absorção",
+    "ht":"Ativo Retido · Bandeira Internacional","hta":"120 UH · 18.000 m² total · Rooftop pool · Spa 12 cabines · Restaurante assinado","htb":"ATIVO CAPITALIZADO · 8% Cap Rate · EBITDA R$ 52M/ano","htf1":"✓ Bandeiras alvo: Rosewood, Fasano, Six Senses, Aman<br>✓ Diária média projetada: R$ 2.800 / 75% ocupação<br>✓ EBITDA margin 35% estabilizado","htf2":"✓ Piscinas rooftop + principal (1.050 m²)<br>✓ Helipad ANAC + Marina 8 vagas<br>✓ Energia solar 600 kWp + LEED Silver",
+    "num-tag":"◆ Os Números","num-title":"Retorno<br><em>Excepcional.</em>","num-desc":"Modelo financeiro com três cenários robustos. No cenário pessimista, o ativo hoteleiro garante resultado positivo expressivo.",
+    "k1":"VGV Total (residencial + hotel)","k1s":"60 villas + 120 UH hoteleiras","k2":"Lucro líquido estimado","k2s":"Cenário base — margem 28%","k3":"TIR projetada a.a.","k3s":"72 meses — incorporação completa","k4":"Payback do capital","k4s":"A partir do início das vendas",
+    "prot-t":"🔒 Mecanismos de Proteção ao Investidor","pr1":"Alienação fiduciária do terreno como garantia real","pr2":"Conta escrow dedicada com segregação total","pr3":"Prioridade de retorno ao investidor sênior","pr4":"Relatórios mensais auditados + data room","pr5":"Cláusula de não-alienação sem anuência","pr6":"Reunião trimestral de cotistas com resultado",
+    "scen-label":"Análise de Cenários","sc1t":"Pessimista · 75% vendas","sc1l":"Resultado total · TIR 19–22% a.a.","sc1n":"Protegido pelo ativo hoteleiro","sc2t":"Base · 92% vendas","sc2l":"Resultado total · TIR","sc2n":"★ Cenário projetado","sc3t":"Otimista · 100% vendas","sc3l":"Resultado total · TIR 34–40% a.a.","sc3n":"Com venda ativo hotel R$ 750M",
+    "land-eval":"Avaliação do Terreno","te1":"Preço incorporação (base)","te2":"Valor justo estimado (mercado)","te3":"Patrimônio estimado total","te4":"Deságio sobre valor justo","cap-need":"Necessidade de Capital · Investidores","cap-desc":"Capital equity M0–M36. Saldo via receita de vendas + financiamento SFI/CEF.",
+    "loc-tag":"◆ Localização Estratégica","loc-title":"O endereço mais<br><em>exclusivo</em> da Bahia.","li1l":"Endereço","li2l":"Aeroporto","li2v":"60 km do Aeroporto de Salvador (SSA) · 50 min de carro","li3l":"Frente Hídrica","li3v":"Oceano Atlântico + Lagoa de Guarajuba — dupla exclusividade","li4l":"Capital","li4v":"60 min do Centro Histórico de Salvador","li5l":"Contexto Imediato","li5v":"Entre Alphaville Guarajuba e Vila Galé — bairro premium consolidado","li6l":"Área e Perímetro",
+    "ctx-t":"Contexto de Mercado · Vizinhança","cx1":"Alphaville Guarajuba — lotes R$ 964–2.256/m²","cx2":"Vila Galé Eco Resort — resort consolidado","cx3":"Anantara Hotels — 1° resort no Brasil (em obras)","cx4":"Grupo Prima — maior invest. privado em turismo do Brasil",
+    "cr-tag":"◆ Cronograma Físico-Financeiro","cr-title":"6 Fases · 72 Meses<br><em>Entrega Escalonada.</em>","cr-desc":"Estrutura de desembolso otimizada com receitas de pré-vendas financiando as obras a partir do mês 24.","cr-btn":"Solicitar Modelo Financeiro Completo",
+    "cr1t":"Pré-Incorporação","cr1d":"Due diligence · Avaliação CREA · Constituição SPE · Entrada 25% terreno · Protocolo EIA/RIMA no INEMA","cr1l":"Investimento estimado",
+    "cr2t":"Projetos & Licenciamento","cr2d":"Masterplan · Projetos executivos · EIA/RIMA · Licença Prévia INEMA · Registro de Incorporação · Pré-lançamento VIP","cr2l":"Projetos + licenças",
+    "cr3t":"Infraestrutura Base","cr3d":"Terraplanagem 308.722m² · Redes saneamento · Vias internas · Helipad · Marina / Pier · Fundações do hotel","cr3l":"Infraestrutura geral",
+    "cr4t":"Hotel & Villas Oceânicas","cr4d":"Estrutura hotel completa · Vedações + revestimentos · Instalações prediais · 20 Villas Oceânicas entregues","cr4l":"Maior fase de obra",
+    "cr5t":"FF&E Hotel & Villas Laguna","cr5d":"Mobiliário hotel (120 UH) · Restaurante assinado · Spa 12 cabines · 20 Villas Laguna entregues · Soft opening","cr5l":"Acabamentos + FF&E",
+    "cr6t":"Grand Opening & Exit","cr6d":"20 Villas Garden entregues · Grand Opening hotel · Operação plena · LEED Silver · Venda ativo hoteleiro · Distribuição","cr6l":"Capitalização ativo hotel",
+    "spe-tag":"◆ Estrutura Societária","spe-title":"SPE · Proteção ao<br><em>Investidor.</em>","spe-desc":"Entrada de 25% (R$ 30,87M) assegura a incorporação. Saldo do terreno via permuta com unidades ou parcelamento ao longo da obra.",
+    "spe1t":"Investidor Sênior · Capital","spe1n":"Fundo / Family Office","spe1l1":"Aporte inicial <strong style='color:var(--gold-l)'>R$ 80–150M</strong> (fases M0–M36)","spe1l2":"TIR estimada <strong style='color:var(--gold-l)'>28–34% a.a.</strong> no cenário base","spe1l3":"Prioridade de retorno antes do incorporador","spe1l4":"Payback <strong style='color:var(--gold-l)'>36–42 meses</strong> do aporte","spe1l5":"Alienação fiduciária do terreno + conta escrow","spe1l6":"Relatórios mensais auditados + data room",
+    "spe2t":"Proprietária · Permuta","spe2l1":"Terreno 308.722m² — valor R$ 123,5M","spe2l2":"Entrada de <strong style='color:var(--gold-l)'>25% = R$ 30,87M</strong> no ato","spe2l3":"Saldo via permuta de unidades ou parcelamento","spe2l4":"Matrícula 3977 — CRI Camaçari","spe2l5":"Georreferenciada SIRGAS2000","spe2l6":"Sem passivos identificados na due diligence preliminar",
+    "spe3t":"Incorporadora · Desenvolvimento","spe3l1":"Gestão integral do empreendimento","spe3l2":"Equipe técnica, jurídica e comercial","spe3l3":"Desenvolvimento e execução completa","spe3l4":"Aprovações, licenças e registros","spe3l5":"Relatórios mensais auditados ao investidor","spe3l6":"Remuneração após retorno total do investidor",
+    "prot2-t":"🔒 Mecanismos de Proteção ao Investidor","pp1":"Alienação fiduciária do terreno como garantia real","pp2":"Conta escrow dedicada com segregação total de recursos","pp3":"Relatórios mensais auditados + data room permanente","pp4":"Reunião trimestral de cotistas com demonstrativos","pp5":"Prioridade de retorno: capital + TIR antes de distribuição","pp6":"Cláusula de não-alienação sem anuência do investidor",
+    "ps-tag":"◆ Como Participar","ps-title":"Próximos <em>Passos.</em>","ps-desc":"Jornada estruturada com NDA, due diligence técnica e LOI antes de qualquer compromisso financeiro.","ps-btn":"Solicitar NDA e Pacote de Investimento",
+    "ps1t":"Assinatura de NDA","ps1d":"Acordo de confidencialidade para acesso ao pacote completo: modelo financeiro, masterplan, matrícula 3977, KML georreferenciado e laudos técnicos.","ps1p":"⏱ Semana 1",
+    "ps2t":"Due Diligence","ps2d":"Análise documental completa e visita técnica presencial ao terreno de 30,87 ha. Validação jurídico-ambiental e avaliação por engenheiro-avaliador CREA/BA.","ps2p":"⏱ 15–30 dias",
+    "ps3t":"LOI + Term Sheet","ps3d":"Letter of Intent com estrutura de capital, participações SPE, cronograma de aportes, mecanismos de proteção e exclusividade.","ps3p":"⏱ 30 dias",
+    "ps4t":"Constituição da SPE","ps4d":"Assinatura do contrato de incorporação, constituição da SPE, CNPJ, abertura de conta escrow dedicada e registro em cartório.","ps4p":"⏱ 45 dias",
+    "ps5t":"Aporte Inicial · Entrada","ps5d":"Pagamento da entrada do terreno: 25% × R$ 123,5M = <strong style='color:var(--gold-l)'>R$ 30.872.250</strong>. Firmando a incorporação e iniciando o cronograma.","ps5p":"⏱ 60 dias",
+    "ps6t":"EIA + Projetos","ps6d":"Protocolo imediato do EIA/RIMA no INEMA-BA. Contratação do escritório de arquitetura e início do masterplan. Mobilização de toda a equipe técnica.","ps6p":"⏱ Mês 2",
+    "gal-tag":"◆ Galeria","gal-title":"Laguna Guarajuba<br><em>em imagens.</em>","gal-quote":"\"A última grande oportunidade de frente dupla oceano + lagoa no litoral baiano. Um ativo irrepetível.\"",
+    "gf1":"Vista Aérea Geral","gf2":"Drone · Laguna","gf3":"Hotel · Piscina","gf4":"Hotel · Ângulo Sul","gf5":"Villas · Oceânicas","gf6":"Complexo · Lagoa","gf7":"Beach Club · Palha","gf8":"Helipad · Acesso",
+    "ct-tag":"◆ Contato Direto","ct-title":"Vamos<br><em>Conversar.</em>","ct-desc":"Preencha para receber o pacote completo: modelo financeiro mês a mês, masterplan, matrícula, KML georreferenciado, due diligence técnico e minuta de NDA/LOI.",
+    "ci1l":"Contato","ci2l":"Empreendimento","ci5l":"Status","ci5v":"Confidencial · Exclusivo para Investidores Qualificados",
+    "fl1":"Nome Completo *","fl1p":"Seu nome completo","fl2":"E-mail *","fl3":"Telefone / WhatsApp *","fl4":"Perfil de Interesse","fl5":"Capacidade de Aporte","fl6":"Mensagem","fl6p":"Descreva seu interesse no projeto...",
+    "fop0":"Selecione seu perfil...","fop1":"Investidor Individual HNWI","fop2":"Family Office","fop3":"Fundo de Investimento / PE","fop4":"Incorporadora / Desenvolvedor","fop5":"Comprador Final de Villa","fop6":"Parceiro Estratégico / Operador Hoteleiro",
+    "foa0":"Selecione a faixa...","foab":"Comprador Final de Villa (R$ 4–12M)","foac":"Prefiro não informar",
+    "fsubmit":"Solicitar NDA & Pacote de Investimento","fprivacy":"Material protegido por confidencialidade · Uso restrito a investidores qualificados",
+    "fsuct":"Obrigado pelo interesse.","fsucd":"Renan Rass entrará em contato em até 24 horas com o pacote completo.<br><br><a href='https://wa.me/5562996411604' style='color:var(--gold-l)' target='_blank'>WhatsApp (62) 99641-1604</a>",
+    "ft-desc":"Resort de Ultraluxo 5★ & 60 Residências Branded · 30,87 hectares de frente dupla oceano + lagoa · VGV R$ 1,1 Bilhão · TIR 28–34% a.a. · Proprietária: Ana Alves de Santana · Matr. 3977",
+    "ft-sec":"Seções","fts1":"O Projeto","fts2":"Produto · Mix de Villas","fts3":"Números & Cenários","fts4":"Localização","fts5":"Cronograma","fts7":"Galeria",
+    "ft-contact":"Contato","ftc1":"Solicitar NDA & Pacote","ftc2":"Reunião de Apresentação","ftd-t":"Documentação",
+    "ft-rights":"Todos os direitos reservados","ft-legal":"Documento confidencial. Os dados, projeções e valores apresentados são estimativas para fins de análise de investimento. Não constituem oferta pública de valores mobiliários. Reprodução não autorizada é proibida.",
+    "ribbon":"CONFIDENCIAL · INVESTIDORES"
+  }
+};
+
+// ── ENGLISH ──────────────────────────────────────────────────
+T.en = {
+  "nav-sub":"5★ Resort · Branded Residences","nav-project":"The Project","nav-product":"Product","nav-numbers":"Numbers","nav-location":"Location","nav-schedule":"Timeline","nav-cta":"Request NDA",
+  "hero-badge":"Investment Memorandum · May 2026","hero-sub":"Ultra-Luxury Resort & Branded Residences · 30.87 Hectares",
+  "hs1":"Total Project GDV","hs2":"IRR p.a. (base case)","hs3":"Double waterfront ocean + lagoon","hs4m":"months","hs4":"Full development",
+  "hero-btn1":"Request NDA & Investment Package","hero-btn2":"Learn About the Project",
+  "nb1":"Development Price","nb2":"Discount vs. Market Value","nb3":"Residences with Private Pool","nb4":"5★ International Brand Hotel","nb5":"Premium Product Vacancy",
+  "g1":"Aerial View · Laguna Guarajuba","g2":"5★ Hotel · Main Pool","g3":"Villas · Oceanfront","g4":"Hotel Pool · Infinity Edge","g5":"Beach Club · Thatched Roof",
+  "g2-1":"Villas · Drone View","g2-2":"Resort · Overview","g2-3":"5★ Hotel · South View","g2-4":"Villas · Lagoon View","g2-5":"Helipad + Beach Club","g2-6":"General View · Lagoon","g2-7":"Complex · Lagoon","g2-8":"Oceanfront · Sunset",
+  "s1-tag":"◆ The Project","s1-title":"The last large-scale<br>beachfront plot<br><em>available.</em>","s1-desc":"30.87 hectares of double water frontage — Atlantic Ocean and Guarajuba Lagoon — at the most exclusive address on the Bahia coast. A unique opportunity to develop the largest ultra-luxury complex in northeastern Brazil.",
+  "p1t":"Double Water Frontage","p1d":"Atlantic Ocean + Guarajuba Lagoon — absolute and unrepeatable exclusivity.",
+  "p2t":"Global Brand 5★ Hotel","p2d":"120 guestrooms operated by Rosewood, Six Senses, Fasano or Aman. EBITDA R$52M/yr.",
+  "p3t":"60 Ultra-Luxury Villas","p3d":"Private pool, green roof and noble hardwood deck. 3 typologies from 280 to 450m².",
+  "p4t":"50–66% Discount","p4d":"Land at R$400/m² vs. market R$800–1,200/m². Fair value: R$247–370M.",
+  "p5t":"Helipad + Marina","p5d":"ANAC-certified helipad and marina with 8 berths. Private air and nautical access.",
+  "p6t":"LEED Silver","p6d":"Sustainability as a differentiator. Own STP, solar energy and native landscaping.",
+  "prod-tag":"◆ Product Mix","prod-title":"Carefully<br><em>Calibrated Mix.</em>","prod-desc":"Three premium residential typologies with private pools and retained hotel asset for future capitalisation.",
+  "vt1":"Oceanic Villa","vt1a":"Oceanfront · 450m²","vt1b":"20 units · Infinity pool · Ipe deck · Green roof","vt1c":"PARTIAL GDV: R$ 230.0 M","vt1f":"✓ Infinity edge private pool<br>✓ Direct Atlantic Ocean view<br>✓ Green roof + hardwood deck<br>✓ Full smart home automation",
+  "vt2":"Laguna Villa","vt2a":"Lagoon View · 380m²","vt2b":"20 units · Private pool · Marina access · Green roof","vt2c":"PARTIAL GDV: R$ 144.0 M","vt2f":"✓ Private pool<br>✓ Panoramic lagoon view<br>✓ Direct marina access<br>✓ Tropical private garden",
+  "vt3":"Garden Villa","vt3a":"Private Garden · 280m²","vt3b":"20 units · Pool · Native landscaping · Best value","vt3c":"PARTIAL GDV: R$ 84.0 M","vt3f":"✓ Private pool<br>✓ Exclusive landscaped garden<br>✓ Integrated rental pool programme<br>✓ Fastest absorption rate",
+  "ht":"Retained Asset · International Brand","hta":"120 GR · 18,000 m² total · Rooftop pool · Spa 12 cabins · Signature restaurant","htb":"CAPITALISED ASSET · 8% Cap Rate · EBITDA R$52M/yr","htf1":"✓ Target brands: Rosewood, Fasano, Six Senses, Aman<br>✓ Projected avg rate: R$2,800 / 75% occupancy<br>✓ EBITDA margin 35% stabilised","htf2":"✓ Rooftop + main pools (1,050 m²)<br>✓ ANAC Helipad + Marina 8 berths<br>✓ 600 kWp solar + LEED Silver",
+  "num-tag":"◆ The Numbers","num-title":"Exceptional<br><em>Returns.</em>","num-desc":"Financial model with three robust scenarios. In the bearish case, the hotel asset ensures a strong positive result.",
+  "k1":"Total GDV (residential + hotel)","k1s":"60 villas + 120 hotel guestrooms","k2":"Estimated net profit","k2s":"Base case — 28% margin","k3":"Projected IRR p.a.","k3s":"72 months — full development","k4":"Capital payback","k4s":"From start of sales",
+  "prot-t":"🔒 Investor Protection Mechanisms","pr1":"Real estate fiduciary lien on land as collateral","pr2":"Dedicated escrow account with full segregation","pr3":"Senior investor return priority","pr4":"Monthly audited reports + data room","pr5":"Non-alienation clause without consent","pr6":"Quarterly shareholder meeting with results",
+  "scen-label":"Scenario Analysis","sc1t":"Bearish · 75% sales","sc1l":"Total result · IRR 19–22% p.a.","sc1n":"Protected by hotel asset","sc2t":"Base · 92% sales","sc2l":"Total result · IRR","sc2n":"★ Projected scenario","sc3t":"Bullish · 100% sales","sc3l":"Total result · IRR 34–40% p.a.","sc3n":"Incl. hotel asset sale R$750M",
+  "land-eval":"Land Valuation","te1":"Development price (base)","te2":"Estimated fair market value","te3":"Total estimated asset value","te4":"Discount vs. fair value","cap-need":"Capital Requirement · Investors","cap-desc":"Equity capital M0–M36. Balance via sales proceeds + SFI/CEF financing.",
+  "loc-tag":"◆ Strategic Location","loc-title":"Bahia's most<br><em>exclusive</em> address.","li1l":"Address","li2l":"Airport","li2v":"60 km from Salvador Airport (SSA) · 50 min by car","li3l":"Water Frontage","li3v":"Atlantic Ocean + Guarajuba Lagoon — dual exclusivity","li4l":"Capital City","li4v":"60 min from Salvador Historic Centre","li5l":"Immediate Context","li5v":"Between Alphaville Guarajuba and Vila Galé — established premium neighbourhood","li6l":"Area & Perimeter",
+  "ctx-t":"Market Context · Neighbourhood","cx1":"Alphaville Guarajuba — lots R$964–2,256/m²","cx2":"Vila Galé Eco Resort — established resort","cx3":"Anantara Hotels — Brazil's 1st resort (under construction)","cx4":"Grupo Prima — largest private tourism investment in Brazil",
+  "cr-tag":"◆ Physical-Financial Schedule","cr-title":"6 Phases · 72 Months<br><em>Phased Delivery.</em>","cr-desc":"Optimised disbursement structure with pre-sale proceeds financing construction from month 24.","cr-btn":"Request Full Financial Model",
+  "cr1t":"Pre-Development","cr1d":"Due diligence · CREA valuation · SPE formation · 25% land entry · EIA/RIMA filing at INEMA","cr1l":"Estimated investment",
+  "cr2t":"Design & Permitting","cr2d":"Masterplan · Executive drawings · EIA/RIMA · Prior Licence INEMA · Development registration · VIP pre-launch","cr2l":"Design + permits",
+  "cr3t":"Base Infrastructure","cr3d":"Earthworks 308,722m² · Utility networks · Internal roads · Helipad · Marina / Pier · Hotel foundations","cr3l":"General infrastructure",
+  "cr4t":"Hotel & Oceanic Villas","cr4d":"Full hotel structure · Cladding + finishes · Building systems · 20 Oceanic Villas delivered","cr4l":"Major construction phase",
+  "cr5t":"FF&E Hotel & Laguna Villas","cr5d":"Hotel furniture (120 GR) · Signature restaurant · Spa 12 cabins · 20 Laguna Villas delivered · Soft opening","cr5l":"Finishes + FF&E",
+  "cr6t":"Grand Opening & Exit","cr6d":"20 Garden Villas delivered · Hotel Grand Opening · Full operations · LEED Silver · Hotel asset sale · Distribution","cr6l":"Hotel asset capitalisation",
+  "spe-tag":"◆ Corporate Structure","spe-title":"SPE · Investor<br><em>Protection.</em>","spe-desc":"25% entry payment (R$30.87M) secures the development. Land balance via unit swap or phased payment.",
+  "spe1t":"Senior Investor · Capital","spe1n":"Fund / Family Office","spe1l1":"Initial commitment <strong style='color:var(--gold-l)'>R$80–150M</strong> (phases M0–M36)","spe1l2":"Estimated IRR <strong style='color:var(--gold-l)'>28–34% p.a.</strong> base case","spe1l3":"Return priority before developer","spe1l4":"Payback <strong style='color:var(--gold-l)'>36–42 months</strong>","spe1l5":"Fiduciary lien on land + escrow account","spe1l6":"Monthly audited reports + data room",
+  "spe2t":"Land Owner · Swap","spe2l1":"Land 308,722m² — value R$123.5M","spe2l2":"Entry payment <strong style='color:var(--gold-l)'>25% = R$30.87M</strong> upfront","spe2l3":"Balance via unit swap or instalment","spe2l4":"Registration no. 3977 — CRI Camaçari","spe2l5":"Georeferenced SIRGAS2000","spe2l6":"No liabilities identified in preliminary due diligence",
+  "spe3t":"Developer · Development","spe3l1":"Full project management","spe3l2":"Technical, legal and sales team","spe3l3":"Full development and execution","spe3l4":"Approvals, licences and registrations","spe3l5":"Monthly audited investor reports","spe3l6":"Remuneration after full investor return",
+  "prot2-t":"🔒 Investor Protection Mechanisms","pp1":"Real estate fiduciary lien on land as collateral","pp2":"Dedicated escrow account with full resource segregation","pp3":"Monthly audited reports + permanent data room","pp4":"Quarterly shareholder meeting with financials","pp5":"Return priority: capital + IRR before distribution","pp6":"Non-alienation clause without investor consent",
+  "ps-tag":"◆ How to Participate","ps-title":"Next <em>Steps.</em>","ps-desc":"Structured journey with NDA, technical due diligence and LOI before any financial commitment.","ps-btn":"Request NDA and Investment Package",
+  "ps1t":"NDA Signing","ps1d":"Confidentiality agreement for access to the full package: financial model, masterplan, title deed 3977, georeferenced KML and technical reports.","ps1p":"⏱ Week 1",
+  "ps2t":"Due Diligence","ps2d":"Full documentary analysis and on-site technical visit to the 30.87 ha plot. Legal-environmental validation and CREA/BA certified appraiser assessment.","ps2p":"⏱ 15–30 days",
+  "ps3t":"LOI + Term Sheet","ps3d":"Letter of Intent covering capital structure, SPE shareholding, disbursement schedule, protection mechanisms and exclusivity.","ps3p":"⏱ 30 days",
+  "ps4t":"SPE Formation","ps4d":"Signing of development agreement, SPE formation, tax registration, dedicated escrow account opening and notarisation.","ps4p":"⏱ 45 days",
+  "ps5t":"Initial Investment · Entry","ps5d":"Land entry payment: 25% × R$123.5M = <strong style='color:var(--gold-l)'>R$30,872,250</strong>. Securing the development and starting the timeline.","ps5p":"⏱ 60 days",
+  "ps6t":"EIA + Design","ps6d":"Immediate EIA/RIMA filing at INEMA-BA. Architecture firm appointment and masterplan commencement. Full technical team mobilisation.","ps6p":"⏱ Month 2",
+  "gal-tag":"◆ Gallery","gal-title":"Laguna Guarajuba<br><em>in images.</em>","gal-quote":"\"The last major double-waterfront opportunity on the Bahia coast. An unrepeatable asset.\"",
+  "gf1":"Aerial Overview","gf2":"Drone · Laguna","gf3":"Hotel · Pool","gf4":"Hotel · South Angle","gf5":"Villas · Oceanfront","gf6":"Complex · Lagoon","gf7":"Beach Club · Thatch","gf8":"Helipad · Access",
+  "ct-tag":"◆ Direct Contact","ct-title":"Let's<br><em>Talk.</em>","ct-desc":"Fill in the form to receive the full package: month-by-month financial model, masterplan, title deed, georeferenced KML, technical due diligence and NDA/LOI draft.",
+  "ci1l":"Contact","ci2l":"Development","ci5l":"Status","ci5v":"Confidential · Exclusive to Qualified Investors",
+  "fl1":"Full Name *","fl1p":"Your full name","fl2":"Email *","fl3":"Phone / WhatsApp *","fl4":"Investor Profile","fl5":"Investment Capacity","fl6":"Message","fl6p":"Describe your interest in the project...",
+  "fop0":"Select your profile...","fop1":"Individual HNWI Investor","fop2":"Family Office","fop3":"Investment Fund / PE","fop4":"Developer","fop5":"Villa End-Buyer","fop6":"Strategic Partner / Hotel Operator",
+  "foa0":"Select the range...","foab":"Villa End-Buyer (R$4–12M)","foac":"Prefer not to say",
+  "fsubmit":"Request NDA & Investment Package","fprivacy":"Confidential material · Restricted to qualified investors",
+  "fsuct":"Thank you for your interest.","fsucd":"Renan Rass will contact you within 24 hours with the full package.<br><br><a href='https://wa.me/5562996411604' style='color:var(--gold-l)' target='_blank'>WhatsApp +55 (62) 99641-1604</a>",
+  "ft-desc":"Ultra-Luxury 5★ Resort & 60 Branded Residences · 30.87 ha double ocean + lagoon waterfront · GDV R$1.1 Billion · IRR 28–34% p.a. · Owner: Ana Alves de Santana · Reg. 3977",
+  "ft-sec":"Sections","fts1":"The Project","fts2":"Product · Villa Mix","fts3":"Numbers & Scenarios","fts4":"Location","fts5":"Timeline","fts7":"Gallery",
+  "ft-contact":"Contact","ftc1":"Request NDA & Package","ftc2":"Presentation Meeting","ftd-t":"Documentation",
+  "ft-rights":"All rights reserved","ft-legal":"Confidential document. Data, projections and values are estimates for investment analysis purposes only. They do not constitute a public offer of securities. Unauthorised reproduction is prohibited.",
+  "ribbon":"CONFIDENTIAL · INVESTORS"
+};
+
+// ── SPANISH ──────────────────────────────────────────────────
+T.es = {
+  "nav-sub":"Resort 5★ · Residencias Branded","nav-project":"El Proyecto","nav-product":"Producto","nav-numbers":"Números","nav-location":"Ubicación","nav-schedule":"Cronograma","nav-cta":"Solicitar NDA",
+  "hero-badge":"Memorando de Inversión · Mayo 2026","hero-sub":"Resort de Ultralujo & Residencias Branded · 30,87 Hectáreas",
+  "hs1":"VGV Total del Proyecto","hs2":"TIR a.a. (escenario base)","hs3":"Doble frente hídrico océano + laguna","hs4m":"meses","hs4":"Desarrollo completo",
+  "hero-btn1":"Solicitar NDA & Paquete de Inversión","hero-btn2":"Conocer el Proyecto",
+  "nb1":"Precio de Incorporación","nb2":"Descuento sobre Valor de Mercado","nb3":"Residencias con Piscina Privada","nb4":"Hotel 5★ Marca Internacional","nb5":"Vacancia Productos Premium",
+  "g1":"Vista Aérea · Laguna Guarajuba","g2":"Hotel 5★ · Piscina Principal","g3":"Villas · Frente al Mar","g4":"Piscina Hotel · Infinity Edge","g5":"Beach Club · Palapa Nativa",
+  "g2-1":"Villas · Vista Drone","g2-2":"Resort · Vista General","g2-3":"Hotel 5★ · Vista Sur","g2-4":"Villas · Vista Laguna","g2-5":"Helipad + Beach Club","g2-6":"Vista General · Laguna","g2-7":"Complejo · Laguna","g2-8":"Frente al Mar · Atardecer",
+  "s1-tag":"◆ El Proyecto","s1-title":"La última gran parcela<br>frente al mar de<br><em>gran escala.</em>","s1-desc":"30,87 hectáreas de doble frente hídrico — océano Atlántico y Laguna de Guarajuba — en la dirección más exclusiva de la costa de Bahía. Una oportunidad única para desarrollar el mayor complejo de ultralujo del noreste de Brasil.",
+  "p1t":"Doble Frente Hídrico","p1d":"Océano Atlántico + Laguna de Guarajuba — exclusividad absoluta e irrepetible.",
+  "p2t":"Hotel 5★ Marca Global","p2d":"120 habitaciones operado por Rosewood, Six Senses, Fasano o Aman. EBITDA R$52M/año.",
+  "p3t":"60 Villas de Ultralujo","p3d":"Piscina privada, techo verde y deck de madera noble. 3 tipologías de 280 a 450m².",
+  "p4t":"Descuento 50–66%","p4d":"Terreno a R$400/m² vs. mercado R$800–1.200/m². Valor justo: R$247–370M.",
+  "p5t":"Helipad + Marina","p5d":"Helipad certificado ANAC y marina con 8 amarres. Acceso aéreo y náutico privado.",
+  "p6t":"LEED Silver","p6d":"Sostenibilidad como diferencial. Planta de tratamiento propia, energía solar y paisajismo nativo.",
+  "prod-tag":"◆ Programa de Productos","prod-title":"Mix Cuidadosamente<br><em>Calibrado.</em>","prod-desc":"Tres tipologías residenciales premium con piscina privada y activo hotelero retenido para capitalización futura.",
+  "vt1":"Villa Oceánica","vt1a":"Frente al Mar · 450m²","vt1b":"20 unidades · Piscina infinity · Deck ipe · Techo verde","vt1c":"VGV PARCIAL: R$ 230,0 M","vt1f":"✓ Piscina privada infinity edge<br>✓ Vista directa Océano Atlántico<br>✓ Techo verde + deck madera noble<br>✓ Domótica smart home completa",
+  "vt2":"Villa Laguna","vt2a":"Vista Laguna · 380m²","vt2b":"20 unidades · Piscina privada · Acceso marina · Techo verde","vt2c":"VGV PARCIAL: R$ 144,0 M","vt2f":"✓ Piscina privada<br>✓ Vista panorámica laguna<br>✓ Acceso directo a la marina<br>✓ Jardín privado tropical",
+  "vt3":"Villa Garden","vt3a":"Jardín Privado · 280m²","vt3b":"20 unidades · Piscina · Paisajismo nativo · Mejor relación precio-valor","vt3c":"VGV PARCIAL: R$ 84,0 M","vt3f":"✓ Piscina privada<br>✓ Jardín paisajístico exclusivo<br>✓ Programa rental pool integrado<br>✓ Mayor velocidad de absorción",
+  "ht":"Activo Retenido · Marca Internacional","hta":"120 hab. · 18.000 m² total · Piscina rooftop · Spa 12 cabinas · Restaurante firmado","htb":"ACTIVO CAPITALIZADO · Cap Rate 8% · EBITDA R$52M/año","htf1":"✓ Marcas objetivo: Rosewood, Fasano, Six Senses, Aman<br>✓ Tarifa media proyectada: R$2.800 / 75% ocupación<br>✓ Margen EBITDA 35% estabilizado","htf2":"✓ Piscinas rooftop + principal (1.050 m²)<br>✓ Helipad ANAC + Marina 8 amarres<br>✓ 600 kWp solar + LEED Silver",
+  "num-tag":"◆ Los Números","num-title":"Retorno<br><em>Excepcional.</em>","num-desc":"Modelo financiero con tres escenarios robustos. En el escenario pesimista, el activo hotelero garantiza un resultado positivo expresivo.",
+  "k1":"VGV Total (residencial + hotel)","k1s":"60 villas + 120 habitaciones hoteleras","k2":"Beneficio neto estimado","k2s":"Escenario base — margen 28%","k3":"TIR proyectada a.a.","k3s":"72 meses — desarrollo completo","k4":"Payback del capital","k4s":"Desde el inicio de ventas",
+  "prot-t":"🔒 Mecanismos de Protección al Inversor","pr1":"Alienación fiduciaria del terreno como garantía real","pr2":"Cuenta escrow dedicada con segregación total","pr3":"Prioridad de retorno al inversor senior","pr4":"Informes mensuales auditados + data room","pr5":"Cláusula de no-alienación sin consentimiento","pr6":"Reunión trimestral de socios con resultados",
+  "scen-label":"Análisis de Escenarios","sc1t":"Pesimista · 75% ventas","sc1l":"Resultado total · TIR 19–22% a.a.","sc1n":"Protegido por activo hotelero","sc2t":"Base · 92% ventas","sc2l":"Resultado total · TIR","sc2n":"★ Escenario proyectado","sc3t":"Optimista · 100% ventas","sc3l":"Resultado total · TIR 34–40% a.a.","sc3n":"Incl. venta activo hotel R$750M",
+  "land-eval":"Valoración del Terreno","te1":"Precio incorporación (base)","te2":"Valor justo estimado (mercado)","te3":"Patrimonio estimado total","te4":"Descuento sobre valor justo","cap-need":"Necesidad de Capital · Inversores","cap-desc":"Capital equity M0–M36. Saldo vía ingresos de ventas + financiamiento SFI/CEF.",
+  "loc-tag":"◆ Ubicación Estratégica","loc-title":"La dirección más<br><em>exclusiva</em> de Bahía.","li1l":"Dirección","li2l":"Aeropuerto","li2v":"60 km del Aeropuerto de Salvador (SSA) · 50 min en coche","li3l":"Frente Hídrico","li3v":"Océano Atlántico + Laguna de Guarajuba — doble exclusividad","li4l":"Capital","li4v":"60 min del Centro Histórico de Salvador","li5l":"Contexto Inmediato","li5v":"Entre Alphaville Guarajuba y Vila Galé — barrio premium consolidado","li6l":"Área y Perímetro",
+  "ctx-t":"Contexto de Mercado · Vecindario","cx1":"Alphaville Guarajuba — lotes R$964–2.256/m²","cx2":"Vila Galé Eco Resort — resort consolidado","cx3":"Anantara Hotels — 1er resort en Brasil (en obras)","cx4":"Grupo Prima — mayor inversión privada en turismo de Brasil",
+  "cr-tag":"◆ Cronograma Físico-Financiero","cr-title":"6 Fases · 72 Meses<br><em>Entrega Escalonada.</em>","cr-desc":"Estructura de desembolso optimizada con ingresos de preventa financiando las obras a partir del mes 24.","cr-btn":"Solicitar Modelo Financiero Completo",
+  "cr1t":"Pre-Desarrollo","cr1d":"Due diligence · Valoración CREA · Constitución SPE · Entrada 25% terreno · Protocolo EIA/RIMA en INEMA","cr1l":"Inversión estimada",
+  "cr2t":"Proyectos & Licencias","cr2d":"Masterplan · Proyectos ejecutivos · EIA/RIMA · Licencia Previa INEMA · Registro de Incorporación · Pre-lanzamiento VIP","cr2l":"Proyectos + licencias",
+  "cr3t":"Infraestructura Base","cr3d":"Movimiento de tierras 308.722m² · Redes de saneamiento · Vías internas · Helipad · Marina / Muelle · Cimentaciones hotel","cr3l":"Infraestructura general",
+  "cr4t":"Hotel & Villas Oceánicas","cr4d":"Estructura hotel completa · Revestimientos + acabados · Instalaciones · 20 Villas Oceánicas entregadas","cr4l":"Mayor fase de obra",
+  "cr5t":"FF&E Hotel & Villas Laguna","cr5d":"Mobiliario hotel (120 hab.) · Restaurante firmado · Spa 12 cabinas · 20 Villas Laguna entregadas · Soft opening","cr5l":"Acabados + FF&E",
+  "cr6t":"Grand Opening & Exit","cr6d":"20 Villas Garden entregadas · Gran apertura hotel · Operación plena · LEED Silver · Venta activo hotelero · Distribución","cr6l":"Capitalización activo hotel",
+  "spe-tag":"◆ Estructura Societaria","spe-title":"SPE · Protección al<br><em>Inversor.</em>","spe-desc":"Entrada del 25% (R$30,87M) asegura el desarrollo. Saldo del terreno vía permuta de unidades o pago escalonado.",
+  "spe1t":"Inversor Senior · Capital","spe1n":"Fondo / Family Office","spe1l1":"Aporte inicial <strong style='color:var(--gold-l)'>R$80–150M</strong> (fases M0–M36)","spe1l2":"TIR estimada <strong style='color:var(--gold-l)'>28–34% a.a.</strong> escenario base","spe1l3":"Prioridad de retorno antes del promotor","spe1l4":"Payback <strong style='color:var(--gold-l)'>36–42 meses</strong>","spe1l5":"Alienación fiduciaria del terreno + cuenta escrow","spe1l6":"Informes mensuales auditados + data room",
+  "spe2t":"Propietaria · Permuta","spe2l1":"Terreno 308.722m² — valor R$123,5M","spe2l2":"Entrada <strong style='color:var(--gold-l)'>25% = R$30,87M</strong> al momento","spe2l3":"Saldo vía permuta de unidades o cuotas","spe2l4":"Matrícula 3977 — CRI Camaçari","spe2l5":"Georreferenciado SIRGAS2000","spe2l6":"Sin pasivos identificados en due diligence preliminar",
+  "spe3t":"Promotora · Desarrollo","spe3l1":"Gestión integral del proyecto","spe3l2":"Equipo técnico, jurídico y comercial","spe3l3":"Desarrollo y ejecución completa","spe3l4":"Aprobaciones, licencias y registros","spe3l5":"Informes mensuales auditados al inversor","spe3l6":"Remuneración tras retorno total del inversor",
+  "prot2-t":"🔒 Mecanismos de Protección al Inversor","pp1":"Alienación fiduciaria del terreno como garantía real","pp2":"Cuenta escrow dedicada con segregación total","pp3":"Informes mensuales auditados + data room permanente","pp4":"Reunión trimestral de socios con estados financieros","pp5":"Prioridad de retorno: capital + TIR antes de distribución","pp6":"Cláusula de no-alienación sin consentimiento del inversor",
+  "ps-tag":"◆ Cómo Participar","ps-title":"Próximos <em>Pasos.</em>","ps-desc":"Proceso estructurado con NDA, due diligence técnica y LOI antes de cualquier compromiso financiero.","ps-btn":"Solicitar NDA y Paquete de Inversión",
+  "ps1t":"Firma del NDA","ps1d":"Acuerdo de confidencialidad para acceder al paquete completo: modelo financiero, masterplan, matrícula 3977, KML georreferenciado e informes técnicos.","ps1p":"⏱ Semana 1",
+  "ps2t":"Due Diligence","ps2d":"Análisis documental completo y visita técnica presencial a la parcela de 30,87 ha. Validación jurídico-ambiental y valoración por tasador certificado.","ps2p":"⏱ 15–30 días",
+  "ps3t":"LOI + Term Sheet","ps3d":"Carta de Intención con estructura de capital, participaciones SPE, calendario de aportes, mecanismos de protección y exclusividad.","ps3p":"⏱ 30 días",
+  "ps4t":"Constitución de la SPE","ps4d":"Firma del contrato de desarrollo, constitución de la SPE, registro fiscal, apertura de cuenta escrow y notarización.","ps4p":"⏱ 45 días",
+  "ps5t":"Aporte Inicial · Entrada","ps5d":"Pago de entrada del terreno: 25% × R$123,5M = <strong style='color:var(--gold-l)'>R$30.872.250</strong>. Asegurando el desarrollo e iniciando el cronograma.","ps5p":"⏱ 60 días",
+  "ps6t":"EIA + Proyectos","ps6d":"Protocolo inmediato del EIA/RIMA en INEMA-BA. Contratación del estudio de arquitectura e inicio del masterplan. Movilización del equipo técnico.","ps6p":"⏱ Mes 2",
+  "gal-tag":"◆ Galería","gal-title":"Laguna Guarajuba<br><em>en imágenes.</em>","gal-quote":"\"La última gran oportunidad de doble frente oceánico + laguna en la costa de Bahía. Un activo irrepetible.\"",
+  "gf1":"Vista Aérea General","gf2":"Drone · Laguna","gf3":"Hotel · Piscina","gf4":"Hotel · Ángulo Sur","gf5":"Villas · Oceánicas","gf6":"Complejo · Laguna","gf7":"Beach Club · Palapa","gf8":"Helipad · Acceso",
+  "ct-tag":"◆ Contacto Directo","ct-title":"Hablemos<br><em>Ahora.</em>","ct-desc":"Complete el formulario para recibir el paquete completo: modelo financiero mes a mes, masterplan, matrícula, KML georreferenciado, due diligence técnico y borrador NDA/LOI.",
+  "ci1l":"Contacto","ci2l":"Desarrollo","ci5l":"Estado","ci5v":"Confidencial · Exclusivo para Inversores Cualificados",
+  "fl1":"Nombre Completo *","fl1p":"Su nombre completo","fl2":"Email *","fl3":"Teléfono / WhatsApp *","fl4":"Perfil de Interés","fl5":"Capacidad de Inversión","fl6":"Mensaje","fl6p":"Describa su interés en el proyecto...",
+  "fop0":"Seleccione su perfil...","fop1":"Inversor Individual HNWI","fop2":"Family Office","fop3":"Fondo de Inversión / PE","fop4":"Promotora / Desarrolladora","fop5":"Comprador Final de Villa","fop6":"Socio Estratégico / Operador Hotelero",
+  "foa0":"Seleccione el rango...","foab":"Comprador Final de Villa (R$4–12M)","foac":"Prefiero no indicar",
+  "fsubmit":"Solicitar NDA & Paquete de Inversión","fprivacy":"Material confidencial · Uso restringido a inversores cualificados",
+  "fsuct":"Gracias por su interés.","fsucd":"Renan Rass se pondrá en contacto en las próximas 24 horas con el paquete completo.<br><br><a href='https://wa.me/5562996411604' style='color:var(--gold-l)' target='_blank'>WhatsApp +55 (62) 99641-1604</a>",
+  "ft-desc":"Resort de Ultralujo 5★ & 60 Residencias Branded · 30,87 ha doble frente océano + laguna · VGV R$1.100 M · TIR 28–34% a.a. · Propietaria: Ana Alves de Santana · Matr. 3977",
+  "ft-sec":"Secciones","fts1":"El Proyecto","fts2":"Producto · Mix de Villas","fts3":"Números & Escenarios","fts4":"Ubicación","fts5":"Cronograma","fts7":"Galería",
+  "ft-contact":"Contacto","ftc1":"Solicitar NDA & Paquete","ftc2":"Reunión de Presentación","ftd-t":"Documentación",
+  "ft-rights":"Todos los derechos reservados","ft-legal":"Documento confidencial. Los datos, proyecciones y valores son estimaciones con fines de análisis de inversión. No constituyen oferta pública de valores. Reproducción no autorizada está prohibida.",
+  "ribbon":"CONFIDENCIAL · INVERSORES"
+};
+
+// ── ENGINE ───────────────────────────────────────────────────
+var currentLang = 'pt';
+
+function setLang(lang){
+  currentLang = lang;
+  var d = T[lang];
+  if(!d) return;
+  document.querySelectorAll('[data-i]').forEach(function(el){
+    var k = el.getAttribute('data-i');
+    if(d[k] !== undefined){
+      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+        el.placeholder = d[k];
+      } else {
+        el.innerHTML = d[k];
+      }
+    }
+  });
+  document.querySelectorAll('[data-i-ph]').forEach(function(el){
+    var k = el.getAttribute('data-i-ph');
+    if(d[k] !== undefined) el.placeholder = d[k];
+  });
+  // Select options
+  document.querySelectorAll('select option[data-i]').forEach(function(el){
+    var k = el.getAttribute('data-i');
+    if(d[k] !== undefined) el.textContent = d[k];
+  });
+  // Update html lang
+  document.getElementById('html-root').lang = lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : 'en';
+  // Update title
+  var titles = {pt:'Laguna Guarajuba · Resort 5★ & Residências Branded · 30,87ha',en:'Laguna Guarajuba · 5★ Resort & Branded Residences · 30.87ha',es:'Laguna Guarajuba · Resort 5★ & Residencias Branded · 30,87ha'};
+  document.title = titles[lang];
+  // Active btn
+  ['pt','en','es'].forEach(function(l){ document.getElementById('btn-'+l).classList.toggle('active', l===lang); });
+  // Form hidden lang
+  document.getElementById('form-lang').value = lang;
+}
+
+// ── MAIN ────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function(){
+  var nav = document.getElementById('nav');
+  if(nav) window.addEventListener('scroll', function(){ nav.classList.toggle('sc', window.scrollY>60); });
+
+  window.openLB = function(src){
+    try{ var i=document.getElementById('lbI'),lb=document.getElementById('lb'); if(i)i.src=src; if(lb)lb.classList.add('active'); document.body.style.overflow='hidden'; }catch(e){}
+  };
+  window.closeLB = function(){
+    try{ var lb=document.getElementById('lb'); if(lb)lb.classList.remove('active'); document.body.style.overflow=''; }catch(e){}
+  };
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLB(); });
+
+  // Form
+  try{
+    var form = document.getElementById('form');
+    if(form){
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        var btn = form.querySelector('.cfsub');
+        if(btn){ btn.disabled = true; btn.textContent = '...'; }
+        fetch(form.action,{ method:'POST', body:new FormData(form), headers:{Accept:'application/json'} })
+        .then(function(r){
+          if(r.ok){ form.style.display='none'; var s=document.getElementById('fsuc'); if(s) s.style.display='block'; }
+          else{ if(btn){ btn.disabled=false; btn.innerHTML=T[currentLang]['fsubmit']||'Submit'; } alert('Error sending form. Contact: renanrass.contato@gmail.com'); }
+        }).catch(function(){ if(btn){ btn.disabled=false; btn.innerHTML=T[currentLang]['fsubmit']||'Submit'; } alert('Connection error. WhatsApp: +55 62 99641-1604'); });
+      });
+    }
+  }catch(e){}
+
+  // Map
+  try{
+    var me = document.getElementById('mapa');
+    if(me && typeof L !== 'undefined'){
+      var map = L.map('mapa',{zoomControl:true,scrollWheelZoom:false}).setView([-12.505,-38.021],14);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
+      var coords = [[-12.498,-38.0285],[-12.4972,-38.027],[-12.496,-38.0265],[-12.4945,-38.026],[-12.4935,-38.0255],[-12.492,-38.0255],[-12.491,-38.026],[-12.4905,-38.0268],[-12.4908,-38.028],[-12.4915,-38.029],[-12.4925,-38.0298],[-12.494,-38.03],[-12.4955,-38.0295],[-12.497,-38.029],[-12.498,-38.0285]];
+      var poly = L.polygon(coords,{color:'#C9A84C',fillColor:'#C9A84C',fillOpacity:.18,weight:2.5,dashArray:'6,4'}).addTo(map);
+      L.marker([-12.4945,-38.0275]).addTo(map).bindPopup('<b style="font-family:serif;color:#8B6914;font-size:14px">📍 Laguna Guarajuba</b><br><small>308.722 m² · Frente dupla oceano + lagoa<br>Rodovia BA-099 · Camaçari · BA</small>').openPopup();
+      map.fitBounds(poly.getBounds(),{padding:[40,40]});
+      var ms = document.createElement('style');
+      ms.textContent = '#mapa .leaflet-tile{filter:brightness(0.72) saturate(0.5)}';
+      document.head.appendChild(ms);
+    }
+  }catch(e){
+    var fb = document.getElementById('mapa');
+    if(fb) fb.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#111;color:#9B8E7A;flex-direction:column;gap:12px;font-size:13px"><span style="font-size:32px">📍</span><span>Rodovia BA-099 · Guarajuba · Camaçari · BA</span><a href="https://maps.google.com/?q=-12.505,-38.021" target="_blank" style="color:#C9A84C;font-size:11px;letter-spacing:2px">VER NO GOOGLE MAPS →</a></div>';
+  }
+
+  // Intersection Observer animations
+  try{
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ if(entry.isIntersecting){ entry.target.style.opacity='1'; entry.target.style.transform='translateY(0)'; }});
+    },{threshold:0.08});
+    document.querySelectorAll('.prodc,.pilc,.kpi-c,.cron-item,.pasc,.spec').forEach(function(el){
+      el.style.opacity='0'; el.style.transform='translateY(24px)'; el.style.transition='opacity .6s ease, transform .6s ease';
+      obs.observe(el);
+    });
+  }catch(e){}
+});
+</script>
+</body>
+</html>
